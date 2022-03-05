@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>主页</h2>
+    <h2>zhuye</h2>
     <Faxianyinyue />
   </div>
 </template>
