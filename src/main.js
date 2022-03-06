@@ -6,10 +6,15 @@ import App from './App.vue'
 // // 引入vuex
 // import store from './store'
 
+// 引入antdvue
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+
 Vue.config.productionTip = false  //关闭生产提示
 
 // 应用插件
 // Vue.use(VueRouter)
+Vue.use(Antd)
 
 new Vue({
   render: h => h(App),
