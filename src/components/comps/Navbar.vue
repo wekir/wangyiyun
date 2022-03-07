@@ -3,14 +3,50 @@
     <!-- logo -->
     <h1 class="logo"></h1>
     <!-- 列表 -->
-    <ul class="list">
-      <li><span><a href="#">发现音乐</a></span></li>
-      <li><span><a href="#">我的音乐</a></span></li>
-      <li><span><a href="#">关注</a></span></li>
-      <li><span><a href="https://music.163.com/store/product">商城</a></span></li>
-      <li><span><a href="#">音乐人</a></span></li>
-      <li><span><a href="#">下载客户端</a></span></li>
-    </ul>
+    <div>
+      <a-menu :defaultSelectedKeys="defaultSelect"
+              class="list"
+              mode="horizontal">
+        <a-menu-item class="listitem"
+                     @click="currentItem('1')"
+                     key="1">
+          <router-link :class="defaultSelect[0] === '1' ? 'active' : '' "
+                       :to="{name:'faxianyinyue'}">发现音乐</router-link>
+        </a-menu-item>
+        <a-menu-item class="listitem"
+                     @click="currentItem('2')"
+                     key="2">
+          <router-link :class="defaultSelect[0] === '2' ? 'active' : '' "
+                       :to="{name:'wodeyinyue'}">我的音乐</router-link>
+        </a-menu-item>
+        <a-menu-item class="listitem"
+                     @click="currentItem('3')"
+                     key="3">
+          <router-link :class="defaultSelect[0] === '3' ? 'active' : '' "
+                       :to="{name:'guanzhu'}">关注</router-link>
+        </a-menu-item>
+        <a-menu-item class="listitem"
+                     @click="currentItem('4')"
+                     key="4">
+          <a href="https://music.163.com/store/product"
+             :class="defaultSelect[0] === '4' ? 'active' : '' ">商城</a>
+
+        </a-menu-item>
+        <a-menu-item class="listitem"
+                     @click="currentItem('5')"
+                     key="5">
+          <a href="https://music.163.com/st/musician"
+             :class="defaultSelect[0] === '5' ? 'active' : '' ">音乐人</a>
+
+        </a-menu-item>
+        <a-menu-item class="listitem"
+                     @click="currentItem('6')"
+                     key="6">
+          <a :class="defaultSelect[0]==='6' ? 'active' : '' ">下载客户端</a>
+
+        </a-menu-item>
+      </a-menu>
+    </div>
     <!-- hot -->
     <h1 class="hot"></h1>
     <!-- 搜索框 -->
@@ -25,8 +61,40 @@
                 shape="round"
                 ghost>创作者中心</a-button>
     </div>
-
-    <a-button ghost
+    <div class="touxiang">
+      <a-dropdown>
+        <a class="ant-dropdown-link"
+           @click="e => e.preventDefault()">
+          <img style="width: 30px;height: 30px;border-radius:50%"
+               src="http://p1.music.126.net/pHW5tAm10IhHGGGGoa1f2g==/109951165754949754.jpg?param=30y30">
+        </a>
+        <a-menu slot="overlay">
+          <a-menu-item>
+            <a href="javascript:;">我的主页</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">我的消息</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">我的等级</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">VIP会员</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">个人设置</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">实名认证</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">退出</a>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </div>
+    <a-button v-if="showphoto"
+              ghost
               class="login"
               @click="showModal">
       登录
@@ -44,24 +112,43 @@
         <div class="model">
           <div style="margin-left: 150px;padding: 24px 0 50px 0">
             <div class="sjh">
-              <a-input placeholder="请输入手机号" />
+              <a-input placeholder="请输入手机号"
+                       v-model="phone" />
             </div>
-            <div class="yzm">
+            <div class="yzm"
+                 v-show="isphonelogin">
               <a-input class="yzminput"
-                       placeholder="请输入验证码" />
-              <a-button class="yzmbtn"
+                       placeholder="请输入验证码"
+                       v-model="captcha" />
+              <a-button @click="getcaptcha"
+                        class="yzmbtn"
                         type="primary">
                 获取验证码
               </a-button>
             </div>
-            <div style="color: #333;margin-bottom:17px">
+            <div style="color: #333;margin-bottom:17px"
+                 v-show="isphonelogin">
               <a-button ghost
-                        style="color: #999999;border: none;margin:0 0 0 -10px">
+                        style="color: #999999;border: none;margin:0 0 0 -10px"
+                        @click="isphonelogin = !isphonelogin">
                 密码登录
               </a-button>
-
             </div>
-            <a-button class="loginbtn"
+            <div class="yzm"
+                 v-show="!isphonelogin">
+              <a-input placeholder="请输入密码"
+                       v-model="password" />
+            </div>
+            <div style="color: #333;margin-bottom:17px"
+                 v-show="!isphonelogin">
+              <a-button ghost
+                        style="color: #999999;border: none;margin:0 0 0 -10px"
+                        @click="isphonelogin = !isphonelogin">
+                短信登录
+              </a-button>
+            </div>
+            <a-button @click="loginbtn"
+                      class="loginbtn"
                       type="primary">
               登录
             </a-button>
@@ -135,6 +222,7 @@
 </template>
 
 <script>
+import { getcaptcha, captchalogin, passwordlogin, accountmsg } from '../../network/login'
 export default {
   name: 'Navbar',
   data () {
@@ -143,7 +231,14 @@ export default {
       visible: false, //登录对话框
       zhucevisible: false,  //注册对话框
       phone: '',  //手机号
-      shownext: false  //是否能进去下一步
+      captcha: '',  //验证码
+      password: '',  //密码
+      isphonelogin: true,  //切换密码登录和验证码登录  
+      shownext: false,  //是否能进去下一步,
+      defaultSelect: ['1'],  //当前选中的页面
+      uid: '',    //保存登陆后的id  
+      photosrc: '',  //头像图片src值
+      showphoto: false
     };
   },
   computed: {
@@ -153,10 +248,74 @@ export default {
       return `${firstphone}****${lastphone}`
     }
   },
+  mounted () {
+    //账号信息
+    accountmsg().then(res => {
+      console.log('账号信息', res);
+    })
+  },
   methods: {
+    // 搜索
     onSearch (value) {
       console.log(value);
     },
+    // 导航栏  （发现音乐，我的音乐，关注，商城...）
+    currentItem (value) {
+      // console.log(value)
+      // console.log(this)
+      this.defaultSelect = [value]
+      this.$emit('selectItem', value)
+    },
+    // 获取验证码按钮
+    getcaptcha () {
+      // console.log('777');
+      getcaptcha(this.phone).then(res => {
+        console.log(res);
+        // this.captcha = 
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    // 登录按钮
+    loginbtn () {
+      //判断是验证码登录 还是 密码登录
+      if (this.isphonelogin) {
+        captchalogin(this.phone, this.captcha).then((res) => {
+          //存下uid
+          this.uid = res.data.account.id
+          console.log('uid', this.uid)
+          this.visible = false
+          this.showphoto = true
+        }).catch((err) => {
+          console.log(err);
+          this.$message.error('验证码错误，请从新输入');
+        })
+      } else {
+        passwordlogin(this.phone, this.password).then((res) => {
+          if (res.data.code === 200) {
+            // 存下uid
+            this.uid = res.data.account.id
+            this.visible = false
+            this.photosrc = res.data.profile.avatarUrl
+            this.showphoto = true
+            // this.accountmsg()
+          }
+          // 如果密码错误，输出错误信息
+          if (res.data.msg) {
+            this.$message.error(res.data.msg);
+          }
+        }).catch((err) => {
+          console.log(err);
+          this.$message.error('密码错误，请从新输入');
+        })
+      }
+    },
+    // //账号信息
+    // accountmsg () {
+    //   accountmsg().then(res => {
+    //     console.log('账号信息', res);
+    //   })
+    // },
     // 登录对话框
     showModal () {
       this.visible = true;
@@ -211,34 +370,42 @@ export default {
   position: relative;
   .logo {
     width: 177px;
-    height: 70px;
-    margin-left: 124px;
+    height: 70x;
+    margin: 0 0 0 124px;
     background-image: url("../../assets/img/topbar.png");
   }
   .list {
     width: 508px;
-    height: 70px;
+    height: 71px;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    list-style: none;
-    li {
-      span {
+    background-color: #333;
+    .listitem {
+      padding: 0;
+      border: none;
+      a {
+        text-decoration: none;
+        padding: 0 19px;
+        border: none;
         height: 70px;
-        a {
-          display: block;
-          height: 70px;
-          line-height: 70px;
-          text-decoration: none;
-          color: #cccccc;
-          font-size: 14px;
-        }
-        a:hover {
-          color: #ffffff;
-          // background-color: #000000;
-        }
+        line-height: 70px;
+        color: #cccccc;
+        font-size: 14px;
+      }
+      a:hover {
+        color: #ffffff;
+        background-color: #000000;
+      }
+      .active {
+        // border: none;
+        color: #ffffff;
+        background-color: #000000;
       }
     }
+    // .listitem:hover {
+    //   color: #ffffff;
+    //   background-color: #000000;
+    // }
   }
   .hot {
     height: 15px;
@@ -272,6 +439,12 @@ export default {
       color: #ffffff;
       border-color: #ffffff;
     }
+  }
+  // 头像样式
+  .touxiang {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
   }
   //登录
   .login {
