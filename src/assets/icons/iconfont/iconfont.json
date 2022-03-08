@@ -1,0 +1,58 @@
+{
+  "id": "3229042",
+  "name": "wyy",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "161453",
+      "name": "mine",
+      "font_class": "mine",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "508909",
+      "name": "等级",
+      "font_class": "dengji",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "1061320",
+      "name": "massage",
+      "font_class": "massage",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "2030019",
+      "name": "退出",
+      "font_class": "h",
+      "unicode": "e819",
+      "unicode_decimal": 59417
+    },
+    {
+      "icon_id": "5321529",
+      "name": "实名认证",
+      "font_class": "shimingrenzheng",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "11372694",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e8b7",
+      "unicode_decimal": 59575
+    },
+    {
+      "icon_id": "11488209",
+      "name": "vip",
+      "font_class": "vip",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    }
+  ]
+}

@@ -35,3 +35,21 @@ export function accountmsg(){
     url: '/user/account'
   })
 }
+// 获取等级信息
+export function accountdj() {
+  return request({
+    url: '/user/level'
+  })
+}
+// 注册
+export function zhuce(phone,password,captcha,nickname) {
+  return request({
+    url: '/register/cellphone',
+    params:{
+      phone,
+      password,
+      captcha,
+      nickname
+    }
+  })
+}

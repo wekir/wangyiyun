@@ -61,39 +61,40 @@
                 shape="round"
                 ghost>创作者中心</a-button>
     </div>
-    <div class="touxiang">
+    <div class="touxiang"
+         v-if="islogin">
       <a-dropdown>
         <a class="ant-dropdown-link"
            @click="e => e.preventDefault()">
           <img style="width: 30px;height: 30px;border-radius:50%"
-               src="http://p1.music.126.net/pHW5tAm10IhHGGGGoa1f2g==/109951165754949754.jpg?param=30y30">
+               :src="photosrc">
         </a>
         <a-menu slot="overlay">
           <a-menu-item>
-            <a href="javascript:;">我的主页</a>
+            <a href="javascript:;"><i class="iconfont icon-mine icon-sel"></i>我的主页</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">我的消息</a>
+            <a href="javascript:;"><i class="iconfont icon-massage icon-sel"></i>我的消息</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">我的等级</a>
+            <a href="javascript:;"><i class="iconfont icon-dengji icon-sel"></i>我的等级</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">VIP会员</a>
+            <a href="javascript:;"><i class="iconfont icon-vip icon-sel"></i>VIP会员</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">个人设置</a>
+            <a href="javascript:;"><i class="iconfont icon-shezhi icon-sel"></i>个人设置</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">实名认证</a>
+            <a href="javascript:;"><i class="iconfont icon-shimingrenzheng icon-sel"></i>实名认证</a>
           </a-menu-item>
           <a-menu-item>
-            <a href="javascript:;">退出</a>
+            <a href="javascript:;"><i class="iconfont icon-h icon-sel"></i>退出</a>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
     </div>
-    <a-button v-if="showphoto"
+    <a-button v-if="!islogin"
               ghost
               class="login"
               @click="showModal">
@@ -187,9 +188,15 @@
             </div>
             <div style="color: #999999;">密码：</div>
             <div class="sjh">
-              <a-input placeholder="设置登录密码，不少于8位" />
+              <a-input placeholder="设置登录密码，不少于8位"
+                       v-model="password" />
             </div>
-            <a-button style="width: 220px;margin-top:20px"
+            <div style="color: #999999;">昵称</div>
+            <div class="sjh">
+              <a-input placeholder="请输入昵称"
+                       v-model="username" />
+            </div>
+            <a-button style="width: 220px;margin-top:10px"
                       type="primary"
                       @click="isnext">
               下一步
@@ -201,8 +208,12 @@
                style="margin-left: 150px;padding: 24px 0 50px 0">
             <div>你的手机号: {{shouphone}}</div>
             <div>为了安全，我们会给你发送短信验证码</div>
+            <a-input style="width:222px;margin-top:20px"
+                     placeholder="请输入验证码"
+                     v-model="captcha" />
             <a-button style="width: 220px;margin-top:20px"
-                      type="primary">
+                      type="primary"
+                      @click="zhuce">
               下一步
             </a-button>
           </div>
@@ -222,7 +233,9 @@
 </template>
 
 <script>
-import { getcaptcha, captchalogin, passwordlogin, accountmsg } from '../../network/login'
+import { getcaptcha, captchalogin, passwordlogin, zhuce } from '../../network/login'
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Navbar',
   data () {
@@ -233,15 +246,16 @@ export default {
       phone: '',  //手机号
       captcha: '',  //验证码
       password: '',  //密码
+      username: '',  //昵称
       isphonelogin: true,  //切换密码登录和验证码登录  
       shownext: false,  //是否能进去下一步,
       defaultSelect: ['1'],  //当前选中的页面
       uid: '',    //保存登陆后的id  
       photosrc: '',  //头像图片src值
-      showphoto: false
     };
   },
   computed: {
+    ...mapState('login', ['islogin']),
     shouphone () {
       const firstphone = this.phone.slice(0, 3)
       const lastphone = this.phone.slice(7)
@@ -249,12 +263,11 @@ export default {
     }
   },
   mounted () {
-    //账号信息
-    accountmsg().then(res => {
-      console.log('账号信息', res);
-    })
+    this.$bus.$on('duihuakuan', this.showModal)
+    // console.log(this.$message);
   },
   methods: {
+    ...mapActions('login', ['changelogin', 'changeloginpw']),
     // 搜索
     onSearch (value) {
       console.log(value);
@@ -280,25 +293,27 @@ export default {
     loginbtn () {
       //判断是验证码登录 还是 密码登录
       if (this.isphonelogin) {
+        // this.$store.dispatch('login/changelogin', { phone: this.phone, captcha: this.captcha })
+        this.changelogin({ phone: this.phone, captcha: this.captcha })
         captchalogin(this.phone, this.captcha).then((res) => {
           //存下uid
           this.uid = res.data.account.id
           console.log('uid', this.uid)
           this.visible = false
-          this.showphoto = true
+          this.photosrc = res.data.profile.avatarUrl + '?param=30y30'
         }).catch((err) => {
           console.log(err);
           this.$message.error('验证码错误，请从新输入');
         })
       } else {
+        // this.$store.dispatch('login/changeloginpw', { phone: this.phone, password: this.password })
+        this.changeloginpw({ phone: this.phone, password: this.password })
         passwordlogin(this.phone, this.password).then((res) => {
           if (res.data.code === 200) {
             // 存下uid
             this.uid = res.data.account.id
             this.visible = false
-            this.photosrc = res.data.profile.avatarUrl
-            this.showphoto = true
-            // this.accountmsg()
+            this.photosrc = res.data.profile.avatarUrl + '?param=30y30'
           }
           // 如果密码错误，输出错误信息
           if (res.data.msg) {
@@ -352,9 +367,36 @@ export default {
       this.zhucevisible = false;
       this.shownext = false
     },
-    // 密码设置成功，进去下一步
+    // 密码,昵称设置成功，进去下一步
     isnext () {
-      this.shownext = !this.shownext
+      if (this.phone === '') {
+        this.$message.error('手机号不能为空！')
+      }
+      if (this.password === '') {
+        this.$message.error('密码不能为空！')
+      }
+      if (this.username === '') {
+        this.$message.error('昵称不能为空！')
+      }
+      if (this.phone && this.password && this.username) {
+        this.shownext = !this.shownext
+      }
+    },
+    zhuce () {
+      this.getcaptcha()
+      const that = this
+      zhuce(this.phone, this.password, this.captcha, this.username).then(res => {
+        if (res.data.code === 200) {
+          that.$message.info('注册成功！')
+          that.zhucevisible = false
+        }
+        if (res.data.message) {
+          that.$message.error(this.data.message)
+        }
+      }).catch(() => {
+        that.$message.info('已有账号，请登录！')
+        that.showModal()
+      })
     }
   },
 
@@ -362,6 +404,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// 图标大小
+.icon-sel {
+  font-size: 17px;
+  padding-right: 7px;
+}
 .nav {
   height: 70px;
   width: 100%;

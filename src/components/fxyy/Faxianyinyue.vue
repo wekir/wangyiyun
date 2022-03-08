@@ -51,7 +51,7 @@
         </a-menu>
       </div>
     </div>
-    <h2>发现音乐</h2>
+    <!-- <h2>发现音乐</h2> -->
     <router-view></router-view>
   </div>
 </template>
