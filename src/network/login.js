@@ -53,3 +53,23 @@ export function zhuce(phone,password,captcha,nickname) {
     }
   })
 }
+// /song/detail?ids=347230
+// /song/url?id=33894312
+
+export function song(ids) {
+  return request({
+    url: '/song/detail',
+    params:{
+      ids,
+    }
+  })
+}
+
+export function songmp(id) {
+  return request({
+    url: '/song/url',
+    params:{
+      id,
+    }
+  })
+}

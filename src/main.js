@@ -12,11 +12,18 @@ import store from './store'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
+// 引入音乐播放器
+// import APlayer from '@moefe/vue-aplayer';
+
 Vue.config.productionTip = false  //关闭生产提示
 
 // 应用插件
 Vue.use(VueRouter)
 Vue.use(Antd)
+// Vue.use(APlayer, {
+//   defaultCover: 'https://github.com/u3u.png',
+//   productionTip: true,
+// });
 
 new Vue({
   render: h => h(App),

@@ -101,6 +101,7 @@ export default {
   display: flex;
   justify-content: center;
   background-color: #f4f4f4;
+  border: 2px solid #d3d3d3;
   .text {
     margin: 20px 0 30px 0;
     width: 230px;
@@ -117,7 +118,7 @@ export default {
   display: flex;
   justify-content: center;
   background-color: #f4f4f4;
-  border: 1px solid #d3d3d3;
+  border: 2px solid #d3d3d3;
   .above {
     width: 230px;
     display: flex;

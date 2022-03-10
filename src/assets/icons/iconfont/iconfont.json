@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7594051",
+      "name": "24gl-playCircle",
+      "font_class": "24gl-playCircle",
+      "unicode": "ea6e",
+      "unicode_decimal": 60014
+    },
+    {
+      "icon_id": "6528447",
+      "name": "耳机",
+      "font_class": "erji",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
       "icon_id": "161453",
       "name": "mine",
       "font_class": "mine",
