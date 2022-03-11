@@ -81,7 +81,7 @@ export default {
     })
     // 等级信息
     accountdj().then(res => {
-      console.log('等级', res);
+      // console.log('等级', res);
       this.dengji = res.data.data.level
     })
   },

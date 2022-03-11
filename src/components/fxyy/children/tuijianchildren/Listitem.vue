@@ -51,6 +51,9 @@ export default {
       font-size: 13px;
       padding: 0 8px 0 8px;
     }
+    .right:hover {
+      color: white;
+    }
   }
   .info {
     height: 40px;

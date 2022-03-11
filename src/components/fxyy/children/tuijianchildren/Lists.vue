@@ -30,7 +30,8 @@
               <i class="iconfont icon-erji icon-sel"></i>
               <span>{{item.plays}}</span>
             </div>
-            <i class="iconfont icon-24gl-playCircle icon-sel right"></i>
+            <i class="iconfont icon-24gl-playCircle icon-sel right"
+               @click="bfsong(item)"></i>
           </div>
         </template>
         <template slot="footer">
@@ -46,6 +47,7 @@
 
 <script>
 import Listitem from './Listitem.vue'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'lists',
@@ -57,7 +59,20 @@ export default {
   },
   mounted () {
   },
+  computed: {
+    ...mapState('songinfo', ['audio'])
+  },
   methods: {
+    ...mapActions('songinfo', ['switchsong']),
+    bfsong (item) {
+      let arr = JSON.parse(item.bofangid)
+      let musicid = arr.map(item => {
+        return item.slice(9)
+      });
+      // console.log('musicid', musicid);
+      this.switchsong(musicid)
+      console.log('123235345', this.audio[0]);
+    }
   }
 }
 </script>
