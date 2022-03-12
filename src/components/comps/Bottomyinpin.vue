@@ -14,7 +14,7 @@
     <div class="yinpin">
       <a-player false
                 theme="white"
-                :music="audio[0]"
+                :music="audio[songindex]"
                 :audio="audio"
                 :show-Lrc="true">
       </a-player>
@@ -33,11 +33,7 @@ export default {
   components: { 'a-player': VueAplayer },
   data () {
     return {
-      flag: false,
-      musicList: '',
-      songList: {
-        src: ''
-      },
+      songindex: 0,  //当前列表的第几首歌
     }
   },
   computed: {
@@ -45,15 +41,24 @@ export default {
   },
   mounted () {
     console.log('audio[0]', this.audio);
+    console.log('000', this.currentsong);
   },
   methods: {
     // 上一首
     back () {
-      this.$refs.aplayer.skipBack();
+      if (this.songindex == 0) {
+        this.songindex = this.audio.length - 1
+      } else {
+        this.songindex -= 1
+      }
     },
     // 下一首
     forword () {
-      this.$refs.aplayer.skipForward();
+      if (this.songindex === this.audio.length - 1) {
+        this.songindex = 0
+      } else {
+        this.songindex += 1
+      }
     }
   }
 }
