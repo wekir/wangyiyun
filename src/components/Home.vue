@@ -8,7 +8,6 @@
     <Guanzhu v-if="showitem === '3'" /> -->
     <router-view></router-view>
     <Bottomyinpin />
-
   </div>
 </template>
 

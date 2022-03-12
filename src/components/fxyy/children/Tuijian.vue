@@ -31,7 +31,7 @@
       <Accountmsg />
 
     </div>
-
+    <router-view></router-view>
   </div>
 </template>
 
@@ -42,7 +42,6 @@ import Lists from './tuijianchildren/Lists'
 
 import { songmp } from '../../../network/login'  //测试
 import { songxq } from '../../../network/song'
-import { rmtjinfo } from '../../../network/pc/rmtj'
 import { rmtjfirstinfo } from '../../../network/pc/rmtjfirst'
 
 import { mapActions } from 'vuex'
@@ -57,7 +56,7 @@ export default {
     }
   },
   mounted () {
-    rmtjinfo().then(res => {
+    rmtjfirstinfo().then(res => {
       this.rmtj = res.data
       console.log('this.rmtj', this.rmtj);
     })

@@ -9,6 +9,7 @@ import Gedan from '../components/fxyy/children/Gedan'
 import Zhubodiantai from '../components/fxyy/children/Zhubodiantai'
 import Geshou from '../components/fxyy/children/Geshou'
 import Xindieshangjia from '../components/fxyy/children/Xindieshangjia'
+import Rmtjitempages from '../components/fxyy/children/tuijianchildren/itempage/Rmtjitempages'
 
 import Guanzhu from '../components/gz/Guanzhu'
 import Wodeyinyue from '../components/wdyy/Wodeyinyue'
@@ -34,7 +35,7 @@ const router = new VueRouter({
       children: [
         {
           path: '/faxianyinyue',
-          redirect: 'tuijian',
+          redirect: 'tuijian'
         },
         {
           path: 'tuijian',
@@ -59,7 +60,13 @@ const router = new VueRouter({
         {
           path: 'xindieshangjia',
           component: Xindieshangjia
+        },
+        {
+          name: 'rmtjitempages',
+          path: 'rmtjitempages',
+          component: Rmtjitempages
         }
+        
       ]
     },
     {

@@ -10,14 +10,6 @@
 export default {
   name: 'listitem',
   props: { itemmsg: Object },
-  data () {
-    return {
-    }
-  },
-  mounted () {
-  },
-  methods: {
-  }
 }
 </script>
 
@@ -26,13 +18,7 @@ export default {
   // width: 140px;
   height: 180px;
   padding: 10px 10px 220px 10px;
-  a {
-    display: block;
-    img {
-      width: 140px;
-      height: 140px;
-    }
-  }
+
   .bofang {
     background-color: #221612;
     opacity: 0.7;

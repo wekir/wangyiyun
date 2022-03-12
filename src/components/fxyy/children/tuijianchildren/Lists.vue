@@ -16,12 +16,13 @@
     </div>
     <!-- 内容区 -->
     <div class="main">
-      <Listitem v-for="item in msg"
+      <Listitem v-for="(item,index) in msg"
                 :key="item.id">
         <template slot="picture">
-          <a href="#">
+          <router-link :to="{name:'rmtjitempages',params: {allinfo:itemsmsg,index:index}}"
+                       href="#">
             <img :src="item.picture">
-          </a>
+          </router-link>
         </template>
         <template slot="content">
           <div class="bofang">
@@ -36,18 +37,19 @@
         </template>
         <template slot="footer">
           <div class="info">
-            <a href="#">{{item.info}}</a>
+            <a href="#">{{item.title}}</a>
           </div>
         </template>
       </Listitem>
     </div>
-
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
 import Listitem from './Listitem.vue'
 import { mapState, mapActions } from 'vuex'
+import { rmtjfirstinfo } from '../../../../network/pc/rmtjfirst'
 
 export default {
   name: 'lists',
@@ -55,15 +57,21 @@ export default {
   props: ['msg'],
   data () {
     return {
+      itemsmsg: '权威u'
     }
   },
   mounted () {
+    rmtjfirstinfo().then(res => {
+      // console.log(res);
+      this.itemsmsg = res
+    })
   },
   computed: {
     ...mapState('songinfo', ['audio'])
   },
   methods: {
     ...mapActions('songinfo', ['switchsong']),
+    // 播放
     bfsong (item) {
       let arr = JSON.parse(item.bofangid)
       let musicid = arr.map(item => {
@@ -72,7 +80,14 @@ export default {
       // console.log('musicid', musicid);
       this.switchsong(musicid)
       console.log('123235345', this.audio[0]);
-    }
+    },
+    // 跳到每个a的页面
+    // runitem () {
+    //   this.$router.push({
+    //     name: 'rmtjitempages'
+    //   })
+    //   // console.log('aaa', this);
+    // }
   }
 }
 </script>
@@ -129,6 +144,13 @@ export default {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    a {
+      display: block;
+      img {
+        width: 140px;
+        height: 140px;
+      }
+    }
   }
 }
 </style>
