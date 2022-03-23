@@ -5,7 +5,7 @@
       <div class="inner">
         <div class="left">
           <div class="yuanquan"></div>
-          <h2>热门推荐</h2>
+          <h2>新碟上架</h2>
         </div>
         <div class="right">
           <span>更多</span>
@@ -16,10 +16,10 @@
     </div>
     <!-- 内容区 -->
     <div class="main">
-      <Listitem v-for="(item,index) in msg"
-                :key="item.id">
+      <Xdsjlistitem v-for="(item,index) in msg"
+                    :key="item.id">
         <template slot="picture">
-          <router-link :to="{name:'rmtjitempages',params: {allinfo:itemsmsg,index:index}}"
+          <router-link :to="{name:'xdsjitempages',params: {allinfo:itemsmsg,index:index}}"
                        href="#">
             <img :src="item.picture">
           </router-link>
@@ -38,22 +38,23 @@
         <template slot="footer">
           <div class="info">
             <a href="#">{{item.title}}</a>
+            <div>{{item.author}}</div>
           </div>
         </template>
-      </Listitem>
+      </Xdsjlistitem>
     </div>
-    <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import Listitem from './Listitem.vue'
-import { mapState, mapActions, mapGetters } from 'vuex'
-import { rmtjfirstinfo } from '../../../../network/pc/rmtjfirst'
+import Xdsjlistitem from './Xdsjlistitem'
+import { mapState, mapActions } from 'vuex'
+import { xdsjinfo } from '../../../../network/pc/xdsj'
+
 
 export default {
   name: 'lists',
-  components: { Listitem },
+  components: { Xdsjlistitem },
   props: ['msg'],
   data () {
     return {
@@ -61,9 +62,10 @@ export default {
     }
   },
   mounted () {
-    rmtjfirstinfo().then(res => {
+    xdsjinfo().then(res => {
       this.itemsmsg = res
     })
+
   },
   computed: {
     ...mapState('songinfo', ['audio'])
@@ -78,13 +80,6 @@ export default {
       });
       this.switchsong(musicid)
     },
-    // 跳到每个a的页面
-    // runitem () {
-    //   this.$router.push({
-    //     name: 'rmtjitempages'
-    //   })
-    //   // console.log('aaa', this);
-    // }
   }
 }
 </script>
@@ -144,8 +139,8 @@ export default {
     a {
       display: block;
       img {
-        width: 140px;
-        height: 140px;
+        width: 100px;
+        height: 100px;
       }
     }
   }

@@ -45,12 +45,72 @@
         </div>
       </div>
     </div>
-    <div style="width:250px;height: 700px;background-color: #333333;"></div>
+    <div class="loginbottom">
+      <div class="bottom">
+        <div class="bottominner">
+          <div class="bottominnertop">
+            <span>入驻歌手</span>
+            <router-link style="color:#595959"
+                         :to="{name:'geshou'}">查看全部 ></router-link>
+          </div>
+          <a-divider style="margin:7px 0 17px 0"
+                     type="horizontal" />
+          <div v-for="(item,index) in rzgexx"
+               :key="index"
+               class="list">
+            <div class="listinner">
+              <a style="display:block"
+                 href="#"><img :src="item.TX"></a>
+              <div style="margin-left:10px">
+                <span class="title">{{item.GS}}</span>
+                <div>
+                  <span class="audio">{{item.YT}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div style="margin-top: 20px">
+            <a-button>
+              申请成为网易云音乐人
+            </a-button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="bottom">
+        <div class="bottominner">
+          <div class="bottominnertop">
+            <span>热门主播</span>
+          </div>
+          <a-divider style="margin:7px 0 17px 0"
+                     type="horizontal" />
+          <div v-for="(item,index) in rmzbxx"
+               :key="index"
+               class="list">
+            <div class="listinner">
+              <a style="display:block"
+                 href="#"><img :src="item.TX"></a>
+              <div style="margin-left:10px">
+                <span class="title">{{item.GS}}</span>
+                <div>
+                  <span class="audio">{{item.YT}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { accountmsg, accountdj } from '../../../../network/login'
+import { rzgsinfo, rmzbinfo } from '../../../../network/pc/rmtj'
 import { mapState } from 'vuex'
 
 export default {
@@ -63,15 +123,17 @@ export default {
       tokenVersion: '', //关注数量
       fans: 2,   //粉丝数  
       dengji: '',  //等级
+      rzgexx: [],  //入驻歌手
+      rmzbxx: [],  //热门主播
     }
   },
   computed: {
     ...mapState('login', ['islogin']),
+
   },
   mounted () {
     // 获取账号信息
     accountmsg().then(res => {
-      console.log('账号信息', res);
       if (res.data.account) {
         this.photoimg = res.data.profile.avatarUrl + '?param=80y80'
         this.status = res.data.account.status
@@ -81,8 +143,16 @@ export default {
     })
     // 等级信息
     accountdj().then(res => {
-      // console.log('等级', res);
       this.dengji = res.data.data.level
+    })
+    // 首页入驻歌手
+    rzgsinfo().then(res => {
+      this.rzgexx = res.data
+    })
+    // 热门主播
+    rmzbinfo().then(res => {
+      console.log('10', res);
+      this.rmzbxx = res.data
     })
   },
   methods: {
@@ -135,6 +205,51 @@ export default {
     .bottom {
       width: 65px;
       margin-left: 20px;
+    }
+  }
+}
+
+// 登录下方内容
+.loginbottom {
+  width: 250px;
+  border: 2px solid #d3d3d3;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 50px;
+  // 入驻歌手
+  .bottom {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    .bottominner {
+      width: 200px;
+      margin-top: 20px;
+      .bottominnertop {
+        display: flex;
+        justify-content: space-between;
+      }
+      .list {
+        // display: flex;
+        // flex-wrap: wrap;
+        .listinner {
+          margin-top: 15px;
+          display: flex;
+          span {
+            margin: 5px 5px 5px 0;
+          }
+          img {
+            width: 50px;
+            height: 50px;
+          }
+          .audio {
+            display: block;
+            width: 144px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+        }
+      }
     }
   }
 }

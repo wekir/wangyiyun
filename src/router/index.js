@@ -10,6 +10,7 @@ import Zhubodiantai from '../components/fxyy/children/Zhubodiantai'
 import Geshou from '../components/fxyy/children/Geshou'
 import Xindieshangjia from '../components/fxyy/children/Xindieshangjia'
 import Rmtjitempages from '../components/fxyy/children/tuijianchildren/itempage/Rmtjitempages'
+import Xdsjitempages from '../components/fxyy/children/tuijianchildren/itempage/Xdsjitempages'
 
 import Guanzhu from '../components/gz/Guanzhu'
 import Wodeyinyue from '../components/wdyy/Wodeyinyue'
@@ -55,6 +56,7 @@ const router = new VueRouter({
         },
         {
           path: 'geshou',
+          name:'geshou',
           component: Geshou
         },
         {
@@ -65,6 +67,11 @@ const router = new VueRouter({
           name: 'rmtjitempages',
           path: 'rmtjitempages',
           component: Rmtjitempages
+        },
+        {
+          name: 'xdsjitempages',
+          path: 'xdsjitempages',
+          component: Xdsjitempages
         }
         
       ]

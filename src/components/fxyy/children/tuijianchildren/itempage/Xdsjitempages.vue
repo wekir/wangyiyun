@@ -11,35 +11,18 @@
               <div class="titleleft"></div>
               <h2 class="titleright">{{info.title}}</h2>
             </div>
-            <!-- 作者信息 不是电台节目时展示-->
+
             <div class="audioinfo"
                  v-show="authorTX">
               <img :src="authorTX">
               <div style="margin: 0 10px 0 10px;">{{author}}</div>
               <div style="margin: 0 10px 0 0;">{{createTime}}</div>
             </div>
-            <!-- 播放 不是电台节目时展示 -->
-            <div class="bfbtn"
-                 v-if="ishaslikeperson">
-              <a-button type="primary"
-                        @click="bfsong">
-                <i class="iconfont icon-24gl-playCircle icon-sel"
-                   style="margin-right: 5px;"></i>
-                播放
-              </a-button>
-            </div>
-            <!-- 介绍 不是电台节目时展示 -->
-            <div v-if="ishaslikeperson">
-              <div style="font-size: 15px"
-                   v-if="introduce">{{introduce}}</div>
-              <div style="font-size: 18px"
-                   v-if="!introduce">介绍： 该作者很懒，什么都没留下......</div>
-            </div>
-            <!-- 类型 -->
-            <div v-if="isshowmorejm">
-              <div style="margin: 30px 0 20px 0;font-size: 17px"><strong><i class="iconfont icon-erji icon-sel"
-                     style="margin: 0 11px 0 11px"></i></strong>{{info.musictype}}
-              </div>
+            <div style="margin-top:10px">歌手：{{info.author}}</div>
+            <div>{{info.createTime}}</div>
+            <div style="margin-bottom:30px">{{info.fxgs}}</div>
+
+            <div class="bfbtn">
               <a-button type="primary"
                         @click="bfsong">
                 <i class="iconfont icon-24gl-playCircle icon-sel"
@@ -51,17 +34,9 @@
           </div>
         </div>
       </div>
-      <div v-if="isshowmorejm"
-           class="otherinfooutter">
+      <div class="otherinfooutter">
         <div class="otherinfo">
-          <div class="infotitle">
-            <span style="border: 1px solid red;color:red;padding: 0 3px 0 3px">{{info.type}}</span>
-            <strong><span>{{info.periods}}</span></strong>
-            <span style="color: #cccccc">{{info.createTime}}</span>
-            <div style="color: #cccccc">播放：</div>
-            <span style="color:red;margin-right: 0">{{info.plays}}</span>
-            <div style="color: #cccccc">次</div>
-          </div>
+          <div style="margin-bottom:10px">专辑介绍：</div>
           <div>
             <p style="font-size:12px;color:#777777">{{info.introduce}}</p>
           </div>
@@ -78,10 +53,9 @@
 
     </div>
     <div class="right">
-      <div v-if="ishaslikeperson"
-           class="top">
+      <div class="top">
         <div class="topinner">
-          <span>喜欢这个歌单的人</span>
+          <span>喜欢这张专辑的人</span>
           <a-divider style="margin:7px 0 17px 0"
                      type="horizontal" />
           <div class="likesongs">
@@ -94,10 +68,9 @@
           </div>
         </div>
       </div>
-      <div v-if="ishashotsongs"
-           class="bottom">
+      <div class="bottom">
         <div class="bottominner">
-          <span>热门歌单</span>
+          <span>Ta的其他热门专辑</span>
           <a-divider style="margin:7px 0 17px 0"
                      type="horizontal" />
           <div v-for="index in gdtotal"
@@ -119,30 +92,7 @@
         </div>
 
       </div>
-      <div v-if="isshowmorejm"
-           class="bottom"
-           style="margin-top: 20px">
-        <div class="bottominner">
-          <span>更多节目</span>
-          <a-divider style="margin:7px 0 17px 0"
-                     type="horizontal" />
-          <div v-for="index in jmtotal"
-               :key="index"
-               class="list">
-            <div class="listinner">
-              <img :src="jmlist.moreprogramsTX[index]">
-              <div style="margin-left:10px">
-                <span class="title">{{jmlist.moreprogramsTitle[index]}}</span>
-                <div>
-                  <span class="audio">{{jmlist.moreprogramsNunber[index]}}</span>
-                </div>
-              </div>
-            </div>
 
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
 </template>
@@ -152,7 +102,7 @@ import { mapActions } from 'vuex'
 import Songslist from '../../../../comps/Songslist'
 
 export default {
-  name: 'Rtjitempages',
+  name: 'Xdsjitempages',
   components: { Songslist },
   data () {
     return {
@@ -160,52 +110,26 @@ export default {
       index: 0,    //那个a标签点击的
       list: {},    //热门歌单数据
       gdtotal: 0,   //多少个热门歌单
-      ishaslikeperson: true,  //是否有喜欢的人
-      ishashotsongs: true,  //是否有热门歌单
       jmtotal: 0,  //更多节目数量
       jmlist: {},  //更多节目数据
-      isshowmorejm: true,  //是否展示更多节目列表
       listsongids: []
     }
   },
   mounted () {
     this.index = this.$route.params.index  //哪一个item
     this.info = this.$route.params.allinfo.data[this.index]  //对应的数据
-    console.log('每一个的信息', this.info);
+    console.log('每一个的信息1111', this.info);
     // 将热门歌单的信息放如一个对象里
-    if (this.info.popularsongTX) {
-      this.list.popularsongTX = JSON.parse(this.info.popularsongTX)   //头像
-      this.list.popularsongTitle = JSON.parse(this.info.popularsongTitle)  //标题
-      this.list.popularsongauthor = JSON.parse(this.info.popularsongauthor)  //作者
-    }
+
+    this.list.popularsongTX = JSON.parse(this.info.popularsongTX)   //头像
+    this.list.popularsongTitle = JSON.parse(this.info.popularsongTitle)  //标题
+    this.list.popularsongauthor = JSON.parse(this.info.popularsongauthor)  //作者
+
     // 热门歌单条数
     if (this.list.popularsongTX.length) {
       this.gdtotal = this.list.popularsongTX.length - 1
     }
-    // console.log('this.list.likesonglist.length', this.likesonglist);
-    // console.log('this.list.popularsongTX.length', this.list.popularsongTX);
-    // 是否展示喜欢这个歌单的人
-    if (this.likesonglist.length === 0) {
-      this.ishaslikeperson = false
-    }
-    // 是否展示热门歌单
-    if (this.list.popularsongTX.length === 0) {
-      this.ishashotsongs = false
-    }
-    // 将更多节目放一对象里
-    if (this.info.moreprogramsTX) {
-      this.jmlist.moreprogramsTX = JSON.parse(this.info.moreprogramsTX)
-      this.jmlist.moreprogramsTitle = JSON.parse(this.info.moreprogramsTitle)
-      this.jmlist.moreprogramsNunber = JSON.parse(this.info.moreprogramsNunber)
-    }
-    // 更多节目数量
-    if (this.jmlist.moreprogramsTX) {
-      this.jmtotal = this.jmlist.moreprogramsTX.length - 1
-    }
-    // 是否展示热门歌单
-    if (this.jmlist.moreprogramsTX.length === 0) {
-      this.isshowmorejm = false
-    }
+
   },
   computed: {
     // 大图

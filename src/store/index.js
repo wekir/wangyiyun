@@ -51,6 +51,7 @@ const login = {
 const songinfo = {
   namespaced: true,  //开启命名空间
   state: {
+    // 播放列表
     audio: [
       {
         title: 'CRANK',
@@ -82,11 +83,15 @@ const songinfo = {
       //   lrc: '[00:00.00] (,,•́ . •̀,,) 抱歉，当前歌曲暂无歌词',
       // },
     ],
+    // 第几首歌播放
+    whichSong: 0
   },
   actions: {
     switchsong(context,value) {
+      console.log('有没有',value);
       let audio = []
       value.forEach((item,index) => {
+        // console.log('222',item);
         let obj = {}
         songxq(item).then(res => {
           // obj.id = item
@@ -95,6 +100,13 @@ const songinfo = {
           obj.pic = res.data.songs[0].al.picUrl
           // obj.lrc = res.data.songs[0].dt
           obj.src = `https://music.163.com/song/media/outer/url?id=${item}.mp3`
+
+          // obj.key = index + 1
+          // obj.songtitle = res.data.songs[0].name
+          // obj.songtime = res.data.songs[0].dt
+          // obj.songaudio = res.data.songs[0].ar[0].name
+          // obj.album = res.data.songs[0].al.name
+
           // songchange(item).then( res => {
           //   obj.src = res.data.data[0].url
           // })
@@ -116,9 +128,14 @@ const songinfo = {
     // }
   },
   mutations: {
+    // 播放列表
     Switchsong (state,value) {  
       state.audio = value
-      console.log('state.audio',state.audio);
+      console.log('不按时的',state.audio);
+    },
+    // 列表中的第几首歌
+    changebfsongs (state,value) {
+      state.whichSong = value
     }
   },
   getters: {}

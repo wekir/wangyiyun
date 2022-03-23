@@ -6,6 +6,7 @@
     <div class="content">
       <div style="width:733px;border: 2px solid #d3d3d3;">
         <Lists :msg="rmtj" />
+        <Xdsjlist :msg="xdsj" />
         <!-- <Lists :msg="rmtj" /> -->
         <a-button type="primary"
                   @click="test">
@@ -39,26 +40,34 @@
 import Banner from '../../comps/Banner'  //引入轮播图组件
 import Accountmsg from './tuijianchildren/Accountmsg'  //引入右侧账号信息组件
 import Lists from './tuijianchildren/Lists'
+import Xdsjlist from './tuijianchildren/Xdsjlist'
 
 import { songmp } from '../../../network/login'  //测试
 import { songxq } from '../../../network/song'
 import { rmtjfirstinfo } from '../../../network/pc/rmtjfirst'
+import { xdsjinfo } from '../../../network/pc/xdsj'
 
 import { mapActions } from 'vuex'
 
 export default {
   name: 'Tuijian',
-  components: { Banner, Accountmsg, Lists },
+  components: { Banner, Accountmsg, Lists, Xdsjlist },
   data () {
     return {
-      id: '21311956',
-      rmtj: {}
+      id: '28563317',
+      rmtj: {},  //热门推荐
+      xdsj: {},   //新碟上架
+      rzgexx: {}  //入驻歌手
     }
   },
   mounted () {
+    //热门推荐
     rmtjfirstinfo().then(res => {
       this.rmtj = res.data
-      console.log('this.rmtj', this.rmtj);
+    })
+    // 新碟上架
+    xdsjinfo().then(res => {
+      this.xdsj = res.data
     })
   },
   methods: {
@@ -83,7 +92,6 @@ export default {
         console.log('歌曲详情', res);
       })
     },
-
     test4 () {
       this.switchsong(this.id)
     },

@@ -14,7 +14,7 @@
     <div class="yinpin">
       <a-player false
                 theme="white"
-                :music="audio[songindex]"
+                :music="audio[whichSong]"
                 :audio="audio"
                 :show-Lrc="true">
       </a-player>
@@ -26,7 +26,7 @@
 <script>
 import VueAplayer from 'vue-aplayer'
 // import { mapState, mapActions } from 'vuex'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'bottomyinpin',
@@ -37,27 +37,31 @@ export default {
     }
   },
   computed: {
-    ...mapState('songinfo', ['audio'])
-  },
-  mounted () {
-    console.log('audio[0]', this.audio);
-    console.log('000', this.currentsong);
+    ...mapState('songinfo', ['audio', 'whichSong'])
   },
   methods: {
+    ...mapMutations('songinfo', ['changebfsongs']),
     // 上一首
     back () {
-      if (this.songindex == 0) {
+      if (this.whichSong == 0) {
+        this.songindex = this.whichSong
         this.songindex = this.audio.length - 1
+        this.changebfsongs(this.songindex)
       } else {
-        this.songindex -= 1
+        this.songindex = this.whichSong - 1
+        this.changebfsongs(this.songindex)
+        // this.songindex -= 1
       }
     },
     // 下一首
     forword () {
-      if (this.songindex === this.audio.length - 1) {
-        this.songindex = 0
+      if (this.whichSong === this.audio.length - 1) {
+        this.changebfsongs(0)
+        // this.songindex = 0
       } else {
-        this.songindex += 1
+        this.songindex = this.whichSong + 1
+        this.changebfsongs(this.songindex)
+        // this.songindex += 1
       }
     }
   }
