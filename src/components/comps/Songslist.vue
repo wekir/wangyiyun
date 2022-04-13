@@ -10,13 +10,14 @@
     </div>
     <a-table :columns="columns"
              :data-source="data"
+             :pagination="false"
+             :rowKey="record=>record.id"
              :bordered=true>
       <div slot="bf"
            slot-scope="text,tags,i">
         <span style="font-size:16px;margin: 0 30px 0 10px">{{i + 1}}</span>
         <strong><i class="iconfont icon-24gl-playCircle icon-sel right"
              @click="bfsong(i)"></i></strong>
-
       </div>
     </a-table>
   </div>
@@ -63,55 +64,85 @@ export default {
     return {
       data: [],
       columns,
+
       listsongids: [],
       // arr: []
     }
   },
-  mounted () {
-    // 得到列表歌单的所有id
-    this.listsongids = JSON.parse(this.ids).map((item) => {
-      return item.slice(9)
-    })
-    // // 获得歌手数据放入data数组里
-    this.listsongids.forEach((item, index) => {
-      // console.log('111', item);
-      let obj = {}
-      songxq(item).then(res => {
-        obj.key = index + 1
-        obj.songtitle = res.data.songs[0].name
-        obj.songtime = res.data.songs[0].dt
-        obj.songaudio = res.data.songs[0].ar[0].name
-        obj.album = res.data.songs[0].al.name
-        this.data.push(obj)
-      })
-    });
-    console.log('按时的', this.data);
-    // this.test1()
-    // // console.log(this.listsongids);
-    // console.log('this.audio', this.audio);
-    // console.log('去微软', this.data);
-    // this.audio.foreach((item) => {
-    //   let obj = {}
-    //   obj.key = item.key
-    //   obj.songtitle = item.songtitle
-    //   obj.songtime = item.songtime
-    //   obj.songaudio = item.songaudio
-    //   obj.album = item.album
-    //   this.data.push(obj)
-    // })
-
-    // this.switchsong(this.listsongids)
-    // for (var item of this.audio) {
-    //     console.log('kk', item);
-    //     let obj = {}
-    //     obj.key = item.key
-    //     obj.songtitle = item.songtitle
-    //     obj.songtime = item.songtime
-    //     obj.songaudio = item.songaudio
-    //     obj.album = item.album
-    //     this.data.push(obj)
-    //   }
+  watch: {
+    ids: {
+      immediate: true,
+      handler (val) {
+        // console.log(val);
+        this.listsongids = JSON.parse(val).map((item) => {
+          return item.slice(9)
+        })
+        // // 获得歌手数据放入data数组里
+        this.listsongids.forEach((item, index) => {
+          this.data = []
+          // console.log('111', item);
+          let obj = {}
+          songxq(item).then(res => {
+            // console.log('666', res);
+            obj.key = index + 1
+            obj.songtitle = res.data.songs[0].name
+            obj.songtime = res.data.songs[0].dt
+            obj.songaudio = res.data.songs[0].ar[0].name
+            obj.album = res.data.songs[0].al.name
+            this.data.push(obj)
+            // console.log(this.data);
+          })
+        });
+      }
+    }
   },
+  // mounted () {
+  //   // 得到列表歌单的所有id
+  //   console.log("qwer");
+  //   this.listsongids = JSON.parse(this.ids).map((item) => {
+  //     return item.slice(9)
+  //   })
+  //   // // 获得歌手数据放入data数组里
+  //   this.listsongids.forEach((item, index) => {
+  //     // console.log('111', item);
+  //     let obj = {}
+  //     songxq(item).then(res => {
+  //       // console.log('666', res);
+  //       obj.key = index + 1
+  //       obj.songtitle = res.data.songs[0].name
+  //       obj.songtime = res.data.songs[0].dt
+  //       obj.songaudio = res.data.songs[0].ar[0].name
+  //       obj.album = res.data.songs[0].al.name
+  //       this.data.push(obj)
+  //     })
+  //   });
+  //   console.log('按时的', this.data);
+  //   // this.test1()
+  //   // // console.log(this.listsongids);
+  //   // console.log('this.audio', this.audio);
+  //   // console.log('去微软', this.data);
+  //   // this.audio.foreach((item) => {
+  //   //   let obj = {}
+  //   //   obj.key = item.key
+  //   //   obj.songtitle = item.songtitle
+  //   //   obj.songtime = item.songtime
+  //   //   obj.songaudio = item.songaudio
+  //   //   obj.album = item.album
+  //   //   this.data.push(obj)
+  //   // })
+
+  //   // this.switchsong(this.listsongids)
+  //   // for (var item of this.audio) {
+  //   //     console.log('kk', item);
+  //   //     let obj = {}
+  //   //     obj.key = item.key
+  //   //     obj.songtitle = item.songtitle
+  //   //     obj.songtime = item.songtime
+  //   //     obj.songaudio = item.songaudio
+  //   //     obj.album = item.album
+  //   //     this.data.push(obj)
+  //   //   }
+  // },
   computed: {
     ...mapState('songinfo', ['audio'])
   },

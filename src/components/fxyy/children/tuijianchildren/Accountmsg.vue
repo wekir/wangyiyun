@@ -164,89 +164,91 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// 未登录时显示
-.nologin {
-  width: 250px;
-  height: 140px;
-  display: flex;
-  justify-content: center;
-  background-color: #f4f4f4;
+.account {
   border: 2px solid #d3d3d3;
-  .text {
-    margin: 20px 0 30px 0;
-    width: 230px;
-  }
-  .btn {
+  // 未登录时显示
+  .nologin {
+    width: 248px;
+    height: 140px;
     display: flex;
     justify-content: center;
-  }
-}
-// 登录时显示
-.login {
-  width: 250px;
-  height: 185px;
-  display: flex;
-  justify-content: center;
-  background-color: #f4f4f4;
-  border: 2px solid #d3d3d3;
-  .above {
-    width: 230px;
-    display: flex;
-    justify-content: space-between;
-    .info {
-      width: 130px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #d3d3d3;
+    .text {
+      margin: 20px 0 30px 0;
+      width: 230px;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
     }
   }
-  .dibu {
-    width: 230px;
+  // 登录时显示
+  .login {
+    width: 248px;
+    height: 185px;
     display: flex;
     justify-content: center;
-    margin-top: 25px;
-    .bottom {
-      width: 65px;
-      margin-left: 20px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #d3d3d3;
+    .above {
+      width: 230px;
+      display: flex;
+      justify-content: space-between;
+      .info {
+        width: 130px;
+      }
+    }
+    .dibu {
+      width: 230px;
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      .bottom {
+        width: 65px;
+        margin-left: 20px;
+      }
     }
   }
-}
 
-// 登录下方内容
-.loginbottom {
-  width: 250px;
-  border: 2px solid #d3d3d3;
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 50px;
-  // 入驻歌手
-  .bottom {
+  // 登录下方内容
+  .loginbottom {
     width: 250px;
     display: flex;
-    justify-content: center;
-    .bottominner {
-      width: 200px;
-      margin-top: 20px;
-      .bottominnertop {
-        display: flex;
-        justify-content: space-between;
-      }
-      .list {
-        // display: flex;
-        // flex-wrap: wrap;
-        .listinner {
-          margin-top: 15px;
+    flex-wrap: wrap;
+    // padding-bottom: 50px;
+    // 入驻歌手
+    .bottom {
+      width: 250px;
+      display: flex;
+      justify-content: center;
+      .bottominner {
+        width: 200px;
+        margin-top: 20px;
+        .bottominnertop {
           display: flex;
-          span {
-            margin: 5px 5px 5px 0;
-          }
-          img {
-            width: 50px;
-            height: 50px;
-          }
-          .audio {
-            display: block;
-            width: 144px;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
+          justify-content: space-between;
+        }
+        .list {
+          // display: flex;
+          // flex-wrap: wrap;
+          .listinner {
+            margin-top: 15px;
+            display: flex;
+            span {
+              margin: 5px 5px 5px 0;
+            }
+            img {
+              width: 50px;
+              height: 50px;
+            }
+            .audio {
+              display: block;
+              width: 144px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
           }
         }
       }

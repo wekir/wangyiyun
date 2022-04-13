@@ -19,3 +19,24 @@ export function rmzbinfo() {
     url: '/rmzbsy'
   })
 }
+
+// 榜单-飙升榜
+export function bsbinfo() {
+  return request({
+    url: '/bsbsy'
+  })
+}
+
+// 榜单-新歌榜
+export function xgbinfo() {
+  return request({
+    url: '/xgbsy'
+  })
+}
+
+// 榜单-原创榜
+export function ycbinfo() {
+  return request({
+    url: '/ycbsy'
+  })
+}

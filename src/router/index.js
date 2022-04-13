@@ -11,6 +11,7 @@ import Geshou from '../components/fxyy/children/Geshou'
 import Xindieshangjia from '../components/fxyy/children/Xindieshangjia'
 import Rmtjitempages from '../components/fxyy/children/tuijianchildren/itempage/Rmtjitempages'
 import Xdsjitempages from '../components/fxyy/children/tuijianchildren/itempage/Xdsjitempages'
+import Phbpages from '../components/fxyy/children/phbchildren/Phbpages'
 
 import Guanzhu from '../components/gz/Guanzhu'
 import Wodeyinyue from '../components/wdyy/Wodeyinyue'
@@ -44,7 +45,18 @@ const router = new VueRouter({
         },
         {
           path: 'paihangban',
-          component: Paihangban
+          component: Paihangban,
+          children: [
+            // {
+            //   path: 'paihangban',
+            //   redirect: 'Phbpages'
+            // },
+            {
+              path: 'phbpages',
+              name: 'phbpages',
+              component: Phbpages
+            }
+          ]
         },
         {
           path: 'gedan',

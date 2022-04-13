@@ -101,11 +101,11 @@ const songinfo = {
           // obj.lrc = res.data.songs[0].dt
           obj.src = `https://music.163.com/song/media/outer/url?id=${item}.mp3`
 
-          // obj.key = index + 1
-          // obj.songtitle = res.data.songs[0].name
-          // obj.songtime = res.data.songs[0].dt
-          // obj.songaudio = res.data.songs[0].ar[0].name
-          // obj.album = res.data.songs[0].al.name
+          obj.key = index + 1
+          obj.songtitle = res.data.songs[0].name
+          obj.songtime = res.data.songs[0].dt
+          obj.songaudio = res.data.songs[0].ar[0].name
+          obj.album = res.data.songs[0].al.name
 
           // songchange(item).then( res => {
           //   obj.src = res.data.data[0].url
