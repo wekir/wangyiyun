@@ -264,7 +264,6 @@ export default {
   },
   mounted () {
     this.$bus.$on('duihuakuan', this.showModal)
-    // console.log(this.$message);
   },
   methods: {
     ...mapActions('login', ['changelogin', 'changeloginpw']),
@@ -274,14 +273,11 @@ export default {
     },
     // 导航栏  （发现音乐，我的音乐，关注，商城...）
     currentItem (value) {
-      // console.log(value)
-      // console.log(this)
       this.defaultSelect = [value]
       this.$emit('selectItem', value)
     },
     // 获取验证码按钮
     getcaptcha () {
-      // console.log('777');
       getcaptcha(this.phone).then(res => {
         console.log(res);
         // this.captcha = 
@@ -298,7 +294,6 @@ export default {
         captchalogin(this.phone, this.captcha).then((res) => {
           //存下uid
           this.uid = res.data.account.id
-          console.log('uid', this.uid)
           this.visible = false
           this.photosrc = res.data.profile.avatarUrl + '?param=30y30'
         }).catch((err) => {

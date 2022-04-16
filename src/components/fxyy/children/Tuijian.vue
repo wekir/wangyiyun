@@ -5,7 +5,22 @@
     <!-- 内容区 -->
     <div class="content">
       <div style="width:730px;border: 2px solid #d3d3d3;">
-        <Lists :msg="rmtj" />
+
+        <Lists :msg="rmtj">
+          <template slot="top">
+            <div class="inner">
+              <div class="left">
+                <div class="yuanquan"></div>
+                <h2>热门推荐</h2>
+              </div>
+              <div class="right">
+                <span>更多</span>
+                <div class="next"></div>
+              </div>
+              <div class="footer"></div>
+            </div>
+          </template>
+        </Lists>
         <Xdsjlist :msg="xdsj" />
         <Bandanlist />
       </div>
@@ -23,8 +38,6 @@ import Lists from './tuijianchildren/Lists'   //热门推荐
 import Xdsjlist from './tuijianchildren/Xdsjlist'   //新碟上架
 import Bandanlist from './tuijianchildren/Bandanlist'  //榜单
 
-import { songmp } from '../../../network/login'  //测试
-import { songxq } from '../../../network/song'
 import { rmtjfirstinfo } from '../../../network/pc/rmtjfirst'
 import { xdsjinfo } from '../../../network/pc/xdsj'
 
@@ -54,30 +67,6 @@ export default {
   },
   methods: {
     ...mapActions('songinfo', ['switchsong']),
-    test () {
-      songmp(this.id).then(res => {
-        console.log('歌曲信息', res);
-      })
-    },
-    test1 () {
-      rmtjinfo().then(res => {
-        console.log('自己的接口', res);
-      })
-    },
-    test2 () {
-      rmtjfirstinfo().then(res => {
-        console.log('热门推荐子页面数据', res);
-      })
-    },
-    test3 () {
-      songxq(this.id).then(res => {
-        console.log('歌曲详情', res);
-      })
-    },
-    test4 () {
-      this.switchsong(this.id)
-    },
-
   }
 }
 </script>
@@ -86,5 +75,42 @@ export default {
 .content {
   display: flex;
   justify-content: center;
+  .inner {
+    // width: 683px;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 50px;
+    .left {
+      display: flex;
+      .yuanquan {
+        width: 35px;
+        height: 35px;
+        background-image: url("../../../assets/img/btns.png");
+        background-position: -228px -155px;
+      }
+    }
+    .right {
+      display: flex;
+      width: 60px;
+      align-items: center;
+
+      .next {
+        width: 30px;
+        height: 30px;
+        background-image: url("../../../assets/img/btns.png");
+        background-position: 5px -230px;
+        // padding-left: 20px;
+      }
+    }
+    .footer {
+      width: 100%;
+      height: 2px;
+      background-color: #c20c0c;
+      margin: -5px 0 10px 0;
+    }
+  }
 }
 </style>

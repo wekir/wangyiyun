@@ -118,7 +118,6 @@ export default {
   mounted () {
     this.index = this.$route.params.index  //哪一个item
     this.info = this.$route.params.allinfo.data[this.index]  //对应的数据
-    console.log('每一个的信息1111', this.info);
     // 将热门歌单的信息放如一个对象里
 
     this.list.popularsongTX = JSON.parse(this.info.popularsongTX)   //头像

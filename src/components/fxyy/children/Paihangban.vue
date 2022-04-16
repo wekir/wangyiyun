@@ -29,6 +29,36 @@
             </div>
           </a-menu-item>
         </a-menu>
+        <div class="left">
+          <div class="title">
+            <strong>
+              <h3>
+                全球媒体榜
+              </h3>
+            </strong>
+          </div>
+          <a-menu style="width: 248px"
+                  mode="vertical"
+                  @click="qqmtbClick"
+                  class="left">
+            <a-menu-item v-for="(item) in phbqqmtbdata"
+                         :key="item.id"
+                         v-show="item.picture"
+                         class="menu-item">
+              <!-- ,query: {info: phbdata[index]} -->
+              <!-- <router-link :to="{name: 'phbpages'}"> -->
+              <!-- <div class="navstyle"> -->
+              <img style="width:40px;height:40px"
+                   :src="item.picture"
+                   alt="phb">
+              <!-- </div> -->
+              <div class="info">
+                <div>{{item.whichbd}}</div>
+                <div class="timebottom">{{item.gxtime}}</div>
+              </div>
+            </a-menu-item>
+          </a-menu>
+        </div>
       </div>
       <div style="width: 730px;background-color: white;">
         <!-- <keep-alive> -->
@@ -43,14 +73,16 @@
 <script>
 import Phbpages from '../children/phbchildren/Phbpages';
 
-import { phbinfo } from '../../../network/pc/phb'
+import { phbinfo, phbqqmtbinfo } from '../../../network/pc/phb'
 export default {
   name: 'Paihangban',
   components: { Phbpages },
   data () {
     return {
       phbdata: [],
-      itemdata: []
+      itemdata: [],
+      phbqqmtbdata: [],  //全球媒体榜
+      qqmtbitemdata: [],  // 全球媒体榜
     }
   },
   mounted () {
@@ -61,6 +93,13 @@ export default {
       // this.csh()
     })
 
+    // 全球媒体榜
+    phbqqmtbinfo().then(res => {
+      this.phbqqmtbdata = res.data
+      this.qqmtbitemdata = res.data[0]
+      console.log('全球媒体榜数据', this.phbqqmtbdata);
+      // this.csh()
+    })
   },
   methods: {
     // 初始化
@@ -87,6 +126,22 @@ export default {
         }
       })
       // this.$bus.$emit('senditeminfo', this.itemdata)
+    },
+    qqmtbClick (a) {
+      // console.log(a);
+      const index = a.key - 32
+      this.qqmtbitemdata = this.phbqqmtbdata[index]
+      console.log('0987', this.qqmtbitemdata);
+      // console.log(this.$route);
+      this.$router.push({
+        name: "phbpages",
+        query: {
+          id: a.key
+        },
+        params: {
+          itemdata: this.qqmtbitemdata
+        }
+      })
     }
   }
 }

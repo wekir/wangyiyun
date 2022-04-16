@@ -110,7 +110,6 @@ export default {
         this.data1.push(item)
         this.bsbids.push(item.songid)
       });
-      console.log('飙升榜id', this.bsbids);
     })
     // 新歌榜
     xgbinfo().then(res => {

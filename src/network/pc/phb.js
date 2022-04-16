@@ -5,3 +5,9 @@ export function phbinfo() {
     url: '/phb'
   })
 }
+
+export function phbqqmtbinfo() {
+  return request({
+    url: '/phbqqmtb'
+  })
+}

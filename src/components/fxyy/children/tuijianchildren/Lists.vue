@@ -2,7 +2,7 @@
   <div class="outcontainer">
     <!-- 顶部 -->
     <div class="outer">
-      <div class="inner">
+      <!-- <div class="inner">
         <div class="left">
           <div class="yuanquan"></div>
           <h2>热门推荐</h2>
@@ -12,14 +12,16 @@
           <div class="next"></div>
         </div>
         <div class="footer"></div>
-      </div>
+      </div> -->
+      <slot name="top"></slot>
     </div>
     <!-- 内容区 -->
     <div class="main">
+      <!-- <h1>{{msg}}</h1> -->
       <Listitem v-for="(item,index) in msg"
                 :key="item.id">
         <template slot="picture">
-          <router-link :to="{name:'rmtjitempages',params: {allinfo:itemsmsg,index:index}}"
+          <router-link :to="{name:'rmtjitempages',params: {allinfo:item,index:index}}"
                        href="#">
             <img :src="item.picture">
           </router-link>
@@ -83,7 +85,6 @@ export default {
     //   this.$router.push({
     //     name: 'rmtjitempages'
     //   })
-    //   // console.log('aaa', this);
     // }
   }
 }
@@ -91,16 +92,18 @@ export default {
 
 <style scoped lang="scss">
 .outcontainer {
-  width: 733px;
+  // width: 733px;
   // background-color: red;
   .outer {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 7px;
+    // padding-top: 7px;
+    padding: 7px 20px 0 20px;
 
     .inner {
-      width: 683px;
+      // width: 683px;
+      width: 100%;
       height: 35px;
       display: flex;
       justify-content: space-between;

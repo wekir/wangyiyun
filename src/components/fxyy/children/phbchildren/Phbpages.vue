@@ -11,7 +11,7 @@
         <h2>{{info.whichbd}}</h2>
         <div class="contentspan">
           <i class="iconfont icon-erji icon-sel"></i>
-          <span>{{info.time}}</span>
+          <span style="margin-left: 10px">{{info.time}}</span>
           <span>{{info.gxtime}}</span>
         </div>
         <div>

@@ -20,7 +20,7 @@
             </div>
             <!-- 播放 不是电台节目时展示 -->
             <div class="bfbtn"
-                 v-if="ishaslikeperson">
+                 v-if="!isshowmorejm">
               <a-button type="primary"
                         @click="bfsong">
                 <i class="iconfont icon-24gl-playCircle icon-sel"
@@ -29,9 +29,27 @@
               </a-button>
             </div>
             <!-- 介绍 不是电台节目时展示 -->
-            <div v-if="ishaslikeperson">
+            <div v-if="!isshowmorejm">
               <div style="font-size: 15px"
-                   v-if="introduce">{{introduce}}</div>
+                   v-if="introduce">
+                <div :class="{showall:true,active:showall}">
+                  <p style="font-size:12px;color:#777777;margin-bottom: 0;">{{info.introduce}}</p>
+                </div>
+                <div class="show">
+                  <a-button v-show="!showall"
+                            class="mui-text-center imgbtn"
+                            :class="{active:showall}"
+                            @click="showall=!showall">
+                    展开
+                  </a-button>
+                  <a-button v-show="showall"
+                            class="mui-text-center imgbtn"
+                            :class="{active:showall}"
+                            @click="showall=!showall">
+                    收起
+                  </a-button>
+                </div>
+              </div>
               <div style="font-size: 18px"
                    v-if="!introduce">介绍： 该作者很懒，什么都没留下......</div>
             </div>
@@ -47,7 +65,6 @@
                 播放
               </a-button>
             </div>
-
           </div>
         </div>
       </div>
@@ -62,7 +79,7 @@
             <span style="color:red;margin-right: 0">{{info.plays}}</span>
             <div style="color: #cccccc">次</div>
           </div>
-          <div>
+          <div class=showall>
             <p style="font-size:12px;color:#777777">{{info.introduce}}</p>
           </div>
         </div>
@@ -70,15 +87,14 @@
       <div class="songstableouter">
         <div class="songstable">
           <div v-if="info.bofangid">
-            <Songslist :ids="info.bofangid" />
+            <Songslist :ids="info.bofangid"
+                       :bfcs="info.plays" />
           </div>
         </div>
-
       </div>
-
     </div>
     <div class="right">
-      <div v-if="ishaslikeperson"
+      <div v-if="!isshowmorejm"
            class="top">
         <div class="topinner">
           <span>喜欢这个歌单的人</span>
@@ -114,10 +130,8 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
       <div v-if="isshowmorejm"
            class="bottom"
@@ -138,10 +152,8 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -160,18 +172,18 @@ export default {
       index: 0,    //那个a标签点击的
       list: {},    //热门歌单数据
       gdtotal: 0,   //多少个热门歌单
-      ishaslikeperson: true,  //是否有喜欢的人
-      ishashotsongs: true,  //是否有热门歌单
+      ishashotsongs: false,  //是否有热门歌单
       jmtotal: 0,  //更多节目数量
       jmlist: {},  //更多节目数据
-      isshowmorejm: true,  //是否展示更多节目列表
-      listsongids: []
+      isshowmorejm: false,  //是否展示更多节目列表
+      listsongids: [],
+      showall: false   //刚开始没有激活
     }
   },
   mounted () {
-    this.index = this.$route.params.index  //哪一个item
-    this.info = this.$route.params.allinfo.data[this.index]  //对应的数据
-    console.log('每一个的信息', this.info);
+    // this.index = this.$route.params.index  //哪一个item
+    // this.info = this.$route.params.allinfo.data[this.index]  //对应的数据
+    this.info = this.$route.params.allinfo
     // 将热门歌单的信息放如一个对象里
     if (this.info.popularsongTX) {
       this.list.popularsongTX = JSON.parse(this.info.popularsongTX)   //头像
@@ -179,18 +191,12 @@ export default {
       this.list.popularsongauthor = JSON.parse(this.info.popularsongauthor)  //作者
     }
     // 热门歌单条数
-    if (this.list.popularsongTX.length) {
-      this.gdtotal = this.list.popularsongTX.length - 1
-    }
-    // console.log('this.list.likesonglist.length', this.likesonglist);
-    // console.log('this.list.popularsongTX.length', this.list.popularsongTX);
-    // 是否展示喜欢这个歌单的人
-    if (this.likesonglist.length === 0) {
-      this.ishaslikeperson = false
-    }
-    // 是否展示热门歌单
-    if (this.list.popularsongTX.length === 0) {
-      this.ishashotsongs = false
+    if (this.list.popularsongTX) {
+      if (this.list.popularsongTX.length) {
+        this.gdtotal = this.list.popularsongTX.length - 1
+        this.ishashotsongs = true
+      }
+
     }
     // 将更多节目放一对象里
     if (this.info.moreprogramsTX) {
@@ -200,12 +206,16 @@ export default {
     }
     // 更多节目数量
     if (this.jmlist.moreprogramsTX) {
-      this.jmtotal = this.jmlist.moreprogramsTX.length - 1
+      if (this.jmlist.moreprogramsTX.length) {
+        this.jmtotal = this.jmlist.moreprogramsTX.length - 1
+        this.isshowmorejm = true
+      }
+
     }
     // 是否展示热门歌单
-    if (this.jmlist.moreprogramsTX.length === 0) {
-      this.isshowmorejm = false
-    }
+    // if (this.jmlist.moreprogramsTX.length === 0) {
+    //   this.isshowmorejm = false
+    // }
   },
   computed: {
     // 大图
@@ -239,9 +249,12 @@ export default {
     ...mapActions('songinfo', ['switchsong']),
     bfsong () {
       console.log('播放歌曲');
+    },
+    showmoretext () {
+      console.log('---');
+      showall = !showall
     }
   }
-
 }
 </script>
 
@@ -263,11 +276,12 @@ export default {
       justify-content: center;
       .top {
         width: 644px;
-        height: 218px;
+        // height: 218px;
         background-color: white;
         margin: 50px 0 5px 0;
         display: flex;
-        align-items: center;
+
+        // align-items: center;
         // border-image: ;
         img {
           padding: 2px;
@@ -276,7 +290,7 @@ export default {
         .topRight {
           width: 413px;
           margin-left: 30px;
-          height: 200px;
+          // height: 200px;
           background-color: white;
           .title {
             display: flex;
@@ -302,6 +316,27 @@ export default {
           .bfbtn {
             margin: 12px 0 12px 0;
           }
+          .showall {
+            padding: 10px 10px 0 10px;
+            height: 62px;
+            overflow: hidden;
+            clear: both;
+            background: #f5f5f5;
+            margin-top: 6px;
+          }
+          .showall.active {
+            //点击了查看更多，就高度就不管了。随实际的大小变化
+            height: auto;
+            padding-bottom: 16px;
+            background: #fff;
+            // min-height: 150px;
+          }
+          .show {
+            float: right;
+            .imgbtn {
+              height: 20px;
+            }
+          }
         }
       }
     }
@@ -319,6 +354,15 @@ export default {
             margin-right: 17px;
           }
         }
+        .showall {
+          padding: 10px;
+          clear: both;
+          background: #f5f5f5;
+          margin-top: 6px;
+          p {
+            margin: 0;
+          }
+        }
       }
     }
     .songstableouter {
@@ -326,7 +370,7 @@ export default {
       justify-content: center;
       .songstable {
         width: 644px;
-        margin-top: 20px;
+        margin: 20px 0 40px 0;
       }
     }
   }

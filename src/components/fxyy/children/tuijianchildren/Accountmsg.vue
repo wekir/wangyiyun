@@ -151,7 +151,6 @@ export default {
     })
     // 热门主播
     rmzbinfo().then(res => {
-      console.log('10', res);
       this.rmzbxx = res.data
     })
   },
