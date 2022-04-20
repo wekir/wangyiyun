@@ -16,13 +16,9 @@
           <a-menu-item v-for="(item) in phbdata"
                        :key="item.id"
                        class="menu-item">
-            <!-- ,query: {info: phbdata[index]} -->
-            <!-- <router-link :to="{name: 'phbpages'}"> -->
-            <!-- <div class="navstyle"> -->
             <img style="width:40px;height:40px"
                  :src="item.picture"
                  alt="phb">
-            <!-- </div> -->
             <div class="info">
               <div>{{item.whichbd}}</div>
               <div class="timebottom">{{item.gxtime}}</div>
@@ -45,13 +41,9 @@
                          :key="item.id"
                          v-show="item.picture"
                          class="menu-item">
-              <!-- ,query: {info: phbdata[index]} -->
-              <!-- <router-link :to="{name: 'phbpages'}"> -->
-              <!-- <div class="navstyle"> -->
               <img style="width:40px;height:40px"
                    :src="item.picture"
                    alt="phb">
-              <!-- </div> -->
               <div class="info">
                 <div>{{item.whichbd}}</div>
                 <div class="timebottom">{{item.gxtime}}</div>
@@ -61,9 +53,7 @@
         </div>
       </div>
       <div style="width: 730px;background-color: white;">
-        <!-- <keep-alive> -->
         <router-view></router-view>
-        <!-- </keep-alive> -->
       </div>
     </div>
   </div>
@@ -90,7 +80,6 @@ export default {
       this.phbdata = res.data
       this.itemdata = res.data[0]
       console.log('排行榜数据', this.phbdata);
-      // this.csh()
     })
 
     // 全球媒体榜
@@ -98,18 +87,9 @@ export default {
       this.phbqqmtbdata = res.data
       this.qqmtbitemdata = res.data[0]
       console.log('全球媒体榜数据', this.phbqqmtbdata);
-      // this.csh()
     })
   },
   methods: {
-    // 初始化
-    // csh () {
-    //   console.log('====');
-    //   this.itemdata = this.phbdata[0]
-    //   this.$router.push({ name: 'phbpages' })
-    //   console.log('----', this.itemdata);
-    //   this.$bus.$emit('senditeminfo', this.itemdata)
-    // },
     // 导航栏
     handleClick (a) {
       const index = a.key - 8
@@ -125,14 +105,10 @@ export default {
           itemdata: this.itemdata
         }
       })
-      // this.$bus.$emit('senditeminfo', this.itemdata)
     },
     qqmtbClick (a) {
-      // console.log(a);
       const index = a.key - 32
       this.qqmtbitemdata = this.phbqqmtbdata[index]
-      console.log('0987', this.qqmtbitemdata);
-      // console.log(this.$route);
       this.$router.push({
         name: "phbpages",
         query: {

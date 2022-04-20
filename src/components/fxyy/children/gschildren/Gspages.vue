@@ -14,12 +14,41 @@
       </div>
       <div class="footer"></div>
     </div>
+    <Gshasimg :msg="info"></Gshasimg>
+    <Gsnoimg v-show="this.noimginfo"
+             :msg="noimginfo"></Gsnoimg>
   </div>
 </template>
 
 <script>
+import Gshasimg from './Gshasimg'
+import Gsnoimg from './Gsnoimg'
+// import 
 export default {
-  name: 'Geshou'
+  name: 'Geshou',
+  components: { Gshasimg, Gsnoimg },
+  data () {
+    return {
+      // hasimginfo: null
+    }
+  },
+  computed: {
+    info () {
+      console.log('this.$route.params.itemdata', this.$route.params.itemdata);
+      return this.$route.params.itemdata
+    },
+    noimginfo () {
+      return this.$route.params.itemdatanoimg
+    }
+  },
+  // mounted() {
+
+  // },
+  methods: {
+    btn () {
+      console.log('歌手页面');
+    }
+  }
 }
 </script>
 

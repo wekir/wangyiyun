@@ -14,8 +14,7 @@
           <a-menu-item class="listitem"
                        @click="currentItem('2')"
                        key="2">
-            <router-link :class="defaultSelect[0] === '2' ? 'active' : '' "
-                         to="/faxianyinyue/paihangban">排行榜</router-link>
+            <a :class="defaultSelect[0] === '2' ? 'active' : '' ">排行榜</a>
 
           </a-menu-item>
           <a-menu-item class="listitem"
@@ -28,17 +27,14 @@
           <a-menu-item class="listitem"
                        @click="currentItem('4')"
                        key="4">
-            <router-link href="https://music.163.com/store/product"
-                         :class="defaultSelect[0] === '4' ? 'active' : '' "
+            <router-link :class="defaultSelect[0] === '4' ? 'active' : '' "
                          to="/faxianyinyue/zhubodiantai">主播电台</router-link>
 
           </a-menu-item>
           <a-menu-item class="listitem"
                        @click="currentItem('5')"
                        key="5">
-            <router-link href="https://music.163.com/st/musician"
-                         :class="defaultSelect[0] === '5' ? 'active' : '' "
-                         to="/faxianyinyue/geshou">歌手</router-link>
+            <a :class="defaultSelect[0] === '5' ? 'active' : '' ">歌手</a>
 
           </a-menu-item>
           <a-menu-item class="listitem"
@@ -57,16 +53,53 @@
 </template>
 
 <script>
+import { geshouTJinfo } from '../../network/pc/geshou'
+import { phbinfo } from '../../network/pc/phb'
 export default {
   name: 'Faxianyinyue',
   data () {
     return {
-      defaultSelect: ['1']
+      defaultSelect: ['1'],
+      itemdata: []
     }
   },
+
   methods: {
     currentItem (value) {
       this.defaultSelect = [value]
+
+      // 排行榜
+      if (this.defaultSelect[0] === '2') {
+        phbinfo().then(res => {
+          this.itemdata = res.data[0]
+          console.log('排行榜数据', this.phbdata);
+          this.$router.push({
+            name: "phbpages",
+            query: {
+              id: this.defaultSelect[0]
+            },
+            params: {
+              itemdata: this.itemdata
+            }
+          })
+        })
+      }
+      // 歌手
+      if (this.defaultSelect[0] === '5') {
+        geshouTJinfo().then(res => {
+          this.itemdata = []
+          this.itemdata = res.data
+          this.$router.push({
+            name: "gspages",
+            query: {
+              id: this.defaultSelect[0]
+            },
+            params: {
+              itemdata: this.itemdata
+            }
+          })
+        })
+      }
     }
   }
 }

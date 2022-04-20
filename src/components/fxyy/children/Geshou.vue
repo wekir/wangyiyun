@@ -6,7 +6,7 @@
           <div class="title">
             <strong>
               <h3>
-                云音乐特色榜
+                推荐
               </h3>
             </strong>
           </div>
@@ -26,17 +26,14 @@
             </div>
           </a-menu-item> -->
             <a-menu-item class="menu-item">
-              1
-            </a-menu-item>
-            <a-menu-item class="menu-item">
-              2
+              <div>· 推荐歌手</div>
             </a-menu-item>
           </a-menu>
           <div class="left">
             <div class="title">
               <strong>
                 <h3>
-                  全球媒体榜
+                  华语
                 </h3>
               </strong>
             </div>
@@ -57,10 +54,13 @@
               </div>
             </a-menu-item> -->
               <a-menu-item class="menu-item">
-                <div><span>1</span></div>
+                <div><span>· 华语男歌手</span></div>
               </a-menu-item>
               <a-menu-item class="menu-item">
-                <div><span>2</span></div>
+                <div><span>· 华语女歌手</span></div>
+              </a-menu-item>
+              <a-menu-item class="menu-item">
+                <div><span>· 华语乐队/组合</span></div>
               </a-menu-item>
             </a-menu>
           </div>
@@ -76,43 +76,68 @@
 </template>
 
 <script>
+import { geshouTJinfo, getHYhasimginfo, getHYnoimginfo } from '../../../network/pc/geshou'
 export default {
   name: 'Geshou',
   data () {
     return {
-
+      itemdata: [],
+      witchitem: 0,  //哪个一  如男歌手还是女歌手
+      itemdatanoimg: [],  //没有图片
     }
+  },
+  mounted () {
+    // geshouTJinfo().then(res => {
+    //   this.itemdata = res.data
+    //   // console.log('0099', res);
+    // })
   },
   methods: {
     // 导航栏
     handleClick (a) {
-      console.log(a);
-      // const index = a.key - 8
-      // this.itemdata = this.phbdata[index]
-      // console.log('0987', this.itemdata);
-      console.log(this.$router);
-      this.$router.push({
-        name: "gspages",
-        query: {
-          id: a.key
-        },
-        // params: {
-        //   itemdata: this.itemdata
-        // }
+      geshouTJinfo().then(res => {
+        this.itemdata = []
+        this.itemdata = res.data
+        this.$router.push({
+          name: "gspages",
+          query: {
+            id: a.item._uid
+          },
+          params: {
+            itemdata: this.itemdata
+          }
+        })
       })
     },
-    qqmtbClick () {
-      // const index = a.key - 32
-      // this.qqmtbitemdata = this.phbqqmtbdata[index]
-      this.$router.push({
-        name: "gspages",
-        // query: {
-        //   id: a.key
-        // },
-        // params: {
-        //   itemdata: this.qqmtbitemdata
-        // }
+    qqmtbClick (a) {
+      getHYhasimginfo().then(res => {
+        this.itemdata = []
+        this.witchitem = a.key.charAt(a.key.length - 1)
+        res.data.forEach(item => {
+          if (item.artistsex == this.witchitem) {
+            this.itemdata.push(item)
+          }
+        })
+      }).then(() => {
+        getHYnoimginfo().then(res => {
+          res.data.forEach(item => {
+            if (item.artistsex == this.witchitem) {
+              this.itemdatanoimg.push(item)
+            }
+          })
+          this.$router.push({
+            name: "gspages",
+            query: {
+              id: a.item._uid
+            },
+            params: {
+              itemdata: this.itemdata,
+              itemdatanoimg: this.itemdatanoimg
+            }
+          })
+        })
       })
+
     }
   }
 }
@@ -132,7 +157,7 @@ export default {
     }
     .title {
       height: 40px;
-      margin-top: 30px;
+      margin-top: 20px;
       display: flex;
       // justify-content: center;
       align-items: center;
@@ -144,7 +169,7 @@ export default {
     }
     .menu-item {
       display: flex;
-      height: 50px;
+      height: 30px;
       .info {
         margin-left: 13px;
         height: 40px;

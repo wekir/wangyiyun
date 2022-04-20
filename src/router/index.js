@@ -13,6 +13,7 @@ import Rmtjitempages from '../components/fxyy/children/tuijianchildren/itempage/
 import Xdsjitempages from '../components/fxyy/children/tuijianchildren/itempage/Xdsjitempages'
 import Phbpages from '../components/fxyy/children/phbchildren/Phbpages'
 import Gspages from '../components/fxyy/children/gschildren/Gspages'
+import Gsitempages from '../components/fxyy/children/gschildren/Gsitempage'
 
 import Guanzhu from '../components/gz/Guanzhu'
 import Wodeyinyue from '../components/wdyy/Wodeyinyue'
@@ -75,7 +76,7 @@ const router = new VueRouter({
             {
               path: 'gspages',
               name: 'gspages',
-              component: Gspages
+              component: Gspages,
             }
           ]
         },
@@ -92,8 +93,12 @@ const router = new VueRouter({
           name: 'xdsjitempages',
           path: 'xdsjitempages',
           component: Xdsjitempages
+        },
+        {
+          path: 'gsitempages',
+          name: 'gsitempages',
+          component: Gsitempages,
         }
-        
       ]
     },
     {

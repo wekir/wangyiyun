@@ -2,7 +2,7 @@
   <div class="gqlb">
     <div class="top">
       <h1>包含歌曲列表</h1>
-      <div>
+      <div v-show="bfcs">
         <span>播放：</span>
         <span style="color:#c20c0c">{{bfcs}}</span>
         <span>次</span>
