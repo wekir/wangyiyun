@@ -11,7 +11,7 @@
                      @click="currentItem('1')"
                      key="1">
           <router-link :class="defaultSelect[0] === '1' ? 'active' : '' "
-                       :to="{name:'faxianyinyue'}">发现音乐</router-link>
+                       :to="{name:'tuijian'}">发现音乐</router-link>
         </a-menu-item>
         <a-menu-item class="listitem"
                      @click="currentItem('2')"

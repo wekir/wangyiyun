@@ -24,13 +24,13 @@
                          to="/faxianyinyue/gedan">歌单</router-link>
 
           </a-menu-item>
-          <a-menu-item class="listitem"
+          <!-- <a-menu-item class="listitem"
                        @click="currentItem('4')"
                        key="4">
             <router-link :class="defaultSelect[0] === '4' ? 'active' : '' "
                          to="/faxianyinyue/zhubodiantai">主播电台</router-link>
 
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-item class="listitem"
                        @click="currentItem('5')"
                        key="5">
@@ -113,7 +113,7 @@ export default {
   height: 35px;
   .innernav {
     width: 774px;
-    padding-left: 170px;
+    padding-left: 137px;
     margin-left: 124.5px;
     height: 35px;
     ::v-deep .ant-menu {

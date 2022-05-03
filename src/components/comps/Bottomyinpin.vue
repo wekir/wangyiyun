@@ -72,7 +72,8 @@ export default {
 .bottom {
   color: white;
   position: fixed;
-  top: 550px;
+  // top: 550px;
+  bottom: 0;
   width: 100%;
   display: flex;
   justify-content: center;

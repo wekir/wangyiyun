@@ -54,7 +54,8 @@
     </div>
     <div class="right">
       <div class="top">
-        <div class="topinner">
+        <div class="topinner"
+             v-show="likesonglist.length">
           <span>喜欢这张专辑的人</span>
           <a-divider style="margin:7px 0 17px 0"
                      type="horizontal" />
@@ -173,10 +174,12 @@ export default {
   background-color: #f5f5f5;
   display: flex;
   justify-content: center;
+
   .left {
     // height: 700px;
     border: 2px solid rgb(211, 211, 211);
     background-color: white;
+    padding-bottom: 30px;
     // display: flex;
     // justify-content: center;
     // flex-wrap: wrap;
@@ -257,6 +260,7 @@ export default {
     width: 250px;
     border: 2px solid #d3d3d3;
     background-color: white;
+    padding-top: 30px;
     .top {
       width: 250px;
       display: flex;

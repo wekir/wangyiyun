@@ -11,48 +11,6 @@
               <div class="titleleft"></div>
               <h2 class="titleright">{{info.title}}</h2>
             </div>
-            <!-- 作者信息 不是电台节目时展示-->
-            <div class="audioinfo"
-                 v-show="authorTX">
-              <img :src="authorTX">
-              <div style="margin: 0 10px 0 10px;">{{author}}</div>
-              <div style="margin: 0 10px 0 0;">{{createTime}}</div>
-            </div>
-            <!-- 播放 不是电台节目时展示 -->
-            <div class="bfbtn"
-                 v-if="!isshowmorejm">
-              <a-button type="primary"
-                        @click="bfsong">
-                <i class="iconfont icon-24gl-playCircle icon-sel"
-                   style="margin-right: 5px;"></i>
-                播放
-              </a-button>
-            </div>
-            <!-- 介绍 不是电台节目时展示 -->
-            <div v-if="!isshowmorejm">
-              <div style="font-size: 15px"
-                   v-if="introduce">
-                <div :class="{showall:true,active:showall}">
-                  <p style="font-size:12px;color:#777777;margin-bottom: 0;">{{info.introduce}}</p>
-                </div>
-                <div class="show">
-                  <a-button v-show="!showall"
-                            class="mui-text-center imgbtn"
-                            :class="{active:showall}"
-                            @click="showall=!showall">
-                    展开
-                  </a-button>
-                  <a-button v-show="showall"
-                            class="mui-text-center imgbtn"
-                            :class="{active:showall}"
-                            @click="showall=!showall">
-                    收起
-                  </a-button>
-                </div>
-              </div>
-              <div style="font-size: 18px"
-                   v-if="!introduce">介绍： 该作者很懒，什么都没留下......</div>
-            </div>
             <!-- 类型 -->
             <div v-if="isshowmorejm">
               <div style="margin: 30px 0 20px 0;font-size: 17px"><strong><i class="iconfont icon-erji icon-sel"
@@ -87,8 +45,8 @@
       <div class="songstableouter">
         <div class="songstable">
           <div v-if="info.bofangid">
-            <Songslist :ids="info.bofangid"
-                       :bfcs="info.plays" />
+            <Songslistzbdt :ids="info.bofangid"
+                           :bfcs="info.plays" />
           </div>
         </div>
       </div>
@@ -161,11 +119,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import Songslist from '../../../../comps/Songslist'
+import Songslistzbdt from './Songslistzbdt.vue'
 
 export default {
-  name: 'Rtjitempages',
-  components: { Songslist },
+  name: 'zbdtitempages',
+  components: { Songslistzbdt },
   data () {
     return {
       info: [],  //每一页的数据
@@ -298,7 +256,7 @@ export default {
             .titleleft {
               width: 55px;
               height: 25px;
-              background-image: url("../../../../../assets/img/someicons.png");
+              background-image: url("../../../../assets/img/someicons.png");
               background-position: 0 -240px;
             }
             .long {

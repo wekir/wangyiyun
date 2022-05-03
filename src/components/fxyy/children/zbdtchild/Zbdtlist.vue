@@ -2,31 +2,20 @@
   <div class="outcontainer">
     <!-- 顶部 -->
     <div class="outer">
-      <div class="inner">
-        <div class="left">
-          <div class="yuanquan"></div>
-          <h2>新碟上架</h2>
-        </div>
-        <div class="right">
-          <span>更多</span>
-          <div class="next"></div>
-        </div>
-        <div class="footer"></div>
-      </div>
+      <slot name="top"></slot>
     </div>
     <!-- 内容区 -->
     <div class="main">
-      <Xdsjlistitem v-for="(item,index) in msg"
+      <Zbdtitemlist v-for="(item,index) in msg"
                     :key="item.id">
         <template slot="picture">
-          <router-link :to="{name:'xdsjitempages',params: {allinfo:itemsmsg,index:index}}"
+          <router-link :to="{name:'zbdtitempages',params: {allinfo:item,index:index}}"
                        href="#">
             <img :src="item.picture">
           </router-link>
         </template>
         <template slot="content">
           <div class="bofang">
-            <!-- {{item.palys}} -->
             <div class="left">
               <i class="iconfont icon-erji icon-sel"></i>
               <span>{{item.plays}}</span>
@@ -38,23 +27,22 @@
         <template slot="footer">
           <div class="info">
             <a href="#">{{item.title}}</a>
-            <div>{{item.author}}</div>
           </div>
         </template>
-      </Xdsjlistitem>
+      </Zbdtitemlist>
     </div>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import Xdsjlistitem from './Xdsjlistitem'
-import { mapState, mapActions } from 'vuex'
-import { xdsjinfo } from '../../../../network/pc/xdsj'
-
+import Zbdtitemlist from './Zbdtitemlist'
+import { mapState, mapActions, mapGetters } from 'vuex'
+// import { rmtjfirstinfo } from '../../../../network/pc/rmtjfirst'
 
 export default {
-  name: 'lists',
-  components: { Xdsjlistitem },
+  name: 'zbdtlist',
+  components: { Zbdtitemlist },
   props: ['msg'],
   data () {
     return {
@@ -62,11 +50,9 @@ export default {
     }
   },
   mounted () {
-    xdsjinfo().then(res => {
-      this.itemsmsg = res
-      console.log('this.itemsmsg', this.itemsmsg);
-    })
-
+    // rmtjfirstinfo().then(res => {
+    //   this.itemsmsg = res
+    // })
   },
   computed: {
     ...mapState('songinfo', ['audio'])
@@ -81,19 +67,26 @@ export default {
       });
       this.switchsong(musicid)
     },
+    // 跳到每个a的页面
+    // runitem () {
+    //   this.$router.push({
+    //     name: 'rmtjitempages'
+    //   })
+    // }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .outcontainer {
-  width: 733px;
+  // width: 733px;
   // background-color: red;
   .outer {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 7px;
+    // padding-top: 7px;
+    padding: 7px 20px 0 20px;
 
     .inner {
       // width: 683px;
@@ -102,7 +95,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      padding: 0 20px 50px 20px;
+      padding-bottom: 50px;
       .left {
         display: flex;
         .yuanquan {
@@ -141,8 +134,8 @@ export default {
     a {
       display: block;
       img {
-        width: 100px;
-        height: 100px;
+        width: 140px;
+        height: 140px;
       }
     }
   }

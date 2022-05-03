@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Xdsjlistitem',
+  name: 'zbdtitemlist'
 }
 </script>
 

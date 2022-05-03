@@ -45,13 +45,14 @@
         </div>
       </div>
     </div>
-    <div class="loginbottom">
+    <div v-show="isshowrzgs"
+         class="loginbottom">
       <div class="bottom">
         <div class="bottominner">
           <div class="bottominnertop">
             <span>入驻歌手</span>
-            <router-link style="color:#595959"
-                         :to="{name:'geshou'}">查看全部 ></router-link>
+            <a style="color:#595959"
+               @click="ckqb">查看全部 ></a>
           </div>
           <a-divider style="margin:7px 0 17px 0"
                      type="horizontal" />
@@ -112,9 +113,11 @@
 import { accountmsg, accountdj } from '../../../../network/login'
 import { rzgsinfo, rmzbinfo } from '../../../../network/pc/rmtj'
 import { mapState } from 'vuex'
+import { geshouTJinfo } from '../../../../network/pc/geshou'
 
 export default {
   name: 'accountmsg',
+  props: ['isshowrzgs'],
   data () {
     return {
       photoimg: '',  //头像图片地址
@@ -125,6 +128,7 @@ export default {
       dengji: '',  //等级
       rzgexx: [],  //入驻歌手
       rmzbxx: [],  //热门主播
+      itemdata: []
     }
   },
   computed: {
@@ -153,10 +157,27 @@ export default {
     rmzbinfo().then(res => {
       this.rmzbxx = res.data
     })
+
+
   },
   methods: {
     login () {
       this.$bus.$emit('duihuakuan')
+    },
+    ckqb () {
+      geshouTJinfo().then(res => {
+        this.itemdata = []
+        this.itemdata = res.data
+        this.$router.push({
+          name: "gspages",
+          // query: {
+          //   id: this.defaultSelect[0]
+          // },
+          params: {
+            itemdata: this.itemdata
+          }
+        })
+      })
     }
   }
 }

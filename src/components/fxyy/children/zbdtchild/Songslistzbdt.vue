@@ -25,8 +25,8 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { songxq } from '../../network/song'
-import { songtime } from '../../components/comps/time'
+import { songxq } from '../../../../network/song'
+// import { songxq } from '../../network/song'
 const columns = [
   {
     title: '',
@@ -59,7 +59,7 @@ const columns = [
 
 
 export default {
-  name: 'songslist',
+  name: 'songslistzbdt',
   props: { ids: String, bfcs: String },
   data () {
     return {
@@ -75,16 +75,17 @@ export default {
       immediate: true,
       handler (val) {
         this.listsongids = JSON.parse(val).map((item) => {
-          return item.slice(9)
+          return item.slice(12)
         })
         // // 获得歌手数据放入data数组里
         this.listsongids.forEach((item, index) => {
           this.data = []
           let obj = {}
           songxq(item).then(res => {
+            // console.log('[[[[]]]]', res);
             obj.key = index + 1
             obj.songtitle = res.data.songs[0].name
-            obj.songtime = songtime(res.data.songs[0].dt).substring(songtime(res.data.songs[0].dt).length - 5)
+            obj.songtime = res.data.songs[0].dt
             obj.songaudio = res.data.songs[0].ar[0].name
             obj.album = res.data.songs[0].al.name
             this.data.push(obj)

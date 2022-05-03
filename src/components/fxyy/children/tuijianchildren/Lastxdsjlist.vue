@@ -49,11 +49,11 @@
 <script>
 import Xdsjlistitem from './Xdsjlistitem'
 import { mapState, mapActions } from 'vuex'
-import { xdsjinfo } from '../../../../network/pc/xdsj'
+import { lastXDSJinfo } from '../../../../network/pc/lastxdsj'
 
 
 export default {
-  name: 'lists',
+  name: 'lastxdsjlist',
   components: { Xdsjlistitem },
   props: ['msg'],
   data () {
@@ -62,11 +62,14 @@ export default {
     }
   },
   mounted () {
-    xdsjinfo().then(res => {
+    // lastXDSJinfo().then(res => {
+    //   this.itemsmsg = res
+    // })
+    lastXDSJinfo().then(res => {
+      // console.log('resmmmm', res);
       this.itemsmsg = res
       console.log('this.itemsmsg', this.itemsmsg);
     })
-
   },
   computed: {
     ...mapState('songinfo', ['audio'])
@@ -141,8 +144,8 @@ export default {
     a {
       display: block;
       img {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
       }
     }
   }

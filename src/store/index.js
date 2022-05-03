@@ -54,11 +54,11 @@ const songinfo = {
     // 播放列表
     audio: [
       {
-        title: 'CRANK',
+        title: 'Waving At Cars',
         color: 'white',
-        artist: 'CHENYI',
-        src: 'http://m801.music.126.net/20220312000102/2c49fd68ee80c5f420ba038e5ab5961d/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1662497870/b26c/49dd/9542/d95be5b819083e26dc8826bdb431d74a.flac',
-        pic: 'https://p1.music.126.net/3zGTj7aqQwt0pBneu9hHLg==/109951164793724802.jpg',
+        artist: 'Isac Elliot',
+        src: 'https://music.163.com/song/media/outer/url?id=1815892497.mp3',
+        pic: 'https://p1.music.126.net/JDIyMuDRPZmnrvssRld5pg==/109951165674055444.jpg',
         // lrc: '[00:00.00] (,,•́ . •̀,,) 刚刚开始学钢琴弹的hhhh',
       },
       // {

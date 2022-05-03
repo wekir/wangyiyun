@@ -24,7 +24,7 @@
         <Xdsjlist :msg="xdsj" />
         <Bandanlist />
       </div>
-      <Accountmsg />
+      <Accountmsg :isshowrzgs="true" />
 
     </div>
     <router-view></router-view>

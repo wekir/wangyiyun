@@ -73,3 +73,61 @@ export function songmp(id) {
     }
   })
 }
+
+
+// 我的歌单
+export function wodegedan(uid) {
+  return request({
+    url: '/user/playlist',
+    params:{
+      uid,
+    }
+  })
+}
+
+export function dongtai(uid) {
+  return request({
+    url: '/user/event',
+    params:{
+      uid,
+    }
+  })
+}
+
+
+
+export function dlzt() {
+  return request({
+    url: '/login/status',
+  })
+}
+
+// 用户关注列表
+export function yhgzlb(uid) {
+  return request({
+    url: '/user/follows',
+    params:{
+      uid,
+    }
+  })
+}
+
+// 9003
+// 用户动态
+export function yhdt(uid) {
+  return request({
+    url: '/user/event',
+    params:{
+      uid,
+    }
+  })
+}
+// /comment/event
+// export function yhdt(uid) {
+//   return request({
+//     url: '/user/event',
+//     params:{
+//       uid,
+//     }
+//   })
+// }
