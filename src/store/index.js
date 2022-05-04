@@ -4,6 +4,8 @@ Vue.use(Vuex)
 
 import {captchalogin,passwordlogin} from '../network/login'  //登录
 import { songchange,songxq } from '../network/song'//歌曲
+import { songtime } from '../components/comps/time'
+import {by} from '../components/comps/paixu'
 
 const login = {
   namespaced: true,  //开启命名空间
@@ -88,14 +90,18 @@ const songinfo = {
   },
   actions: {
     switchsong(context,value) {
-      console.log('有没有',value);
+      // console.log('有没有',value);
+      // value.sort(function(a,b) {
+      //   return b - a
+      // })
+      // console.log('有',value);
       let audio = []
       value.forEach((item,index) => {
         // console.log('222',item);
         let obj = {}
         songxq(item).then(res => {
           // obj.id = item
-          obj.title = res.data.songs[0].al.name
+          obj.title = res.data.songs[0].name
           obj.artist = res.data.songs[0].ar[0].name
           obj.pic = res.data.songs[0].al.picUrl
           // obj.lrc = res.data.songs[0].dt
@@ -103,7 +109,8 @@ const songinfo = {
 
           obj.key = index + 1
           obj.songtitle = res.data.songs[0].name
-          obj.songtime = res.data.songs[0].dt
+          // obj.songtime = res.data.songs[0].dt
+          obj.songtime = songtime(res.data.songs[0].dt).substring(songtime(res.data.songs[0].dt).length - 5)
           obj.songaudio = res.data.songs[0].ar[0].name
           obj.album = res.data.songs[0].al.name
 
@@ -112,6 +119,11 @@ const songinfo = {
           // })
           audio.push(obj)
           if(index === value.length - 1){
+            console.log('audio.length',audio.length)
+            audio.sort(function(a,b) {
+              return b.key - a.key
+            })
+            console.log('audio',audio)
             context.commit('Switchsong',audio)
           }
         })
@@ -130,8 +142,13 @@ const songinfo = {
   mutations: {
     // 播放列表
     Switchsong (state,value) {  
+      
+      value.sort(function(a,b) {
+        return b.key - a.key
+      })
+      console.log('不按时的',value);
       state.audio = value
-      console.log('不按时的',state.audio);
+      
     },
     // 列表中的第几首歌
     changebfsongs (state,value) {

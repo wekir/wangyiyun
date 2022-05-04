@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Faxianyniyue from '../components/fxyy/Faxianyinyue'
 // children
 import Tuijian from '../components/fxyy/children/Tuijian'
+import Searchsongslist from '../components/comps/Searchsongslist'
 import Paihangban from '../components/fxyy/children/Paihangban'
 import Gedan from '../components/fxyy/children/Gedan'
 import Zhubodiantai from '../components/fxyy/children/Zhubodiantai'
@@ -46,6 +47,11 @@ const router = new VueRouter({
           path: 'tuijian',
           name: 'tuijian',
           component: Tuijian
+        },
+        {
+          path: 'searchsongslist',
+          name: 'searchsongslist',
+          component: Searchsongslist
         },
         {
           path: 'paihangban',

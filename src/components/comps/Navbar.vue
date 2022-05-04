@@ -235,6 +235,7 @@
 <script>
 import { getcaptcha, captchalogin, passwordlogin, zhuce } from '../../network/login'
 import { mapState, mapActions } from 'vuex'
+import { search } from '../../network/search'
 
 export default {
   name: 'Navbar',
@@ -252,6 +253,9 @@ export default {
       defaultSelect: ['1'],  //当前选中的页面
       uid: '',    //保存登陆后的id  
       photosrc: '',  //头像图片src值
+
+
+      ids: []  //ids搜索到的歌曲
     };
   },
   computed: {
@@ -269,7 +273,26 @@ export default {
     ...mapActions('login', ['changelogin', 'changeloginpw']),
     // 搜索
     onSearch (value) {
-      console.log(value);
+      // console.log(value);
+      search(value).then(res => {
+        this.ids = []
+        // console.log('搜索结果', res);
+        res.data.result.songs.map((item, index) => {
+          this.ids.push(item.id)
+          // console.log('item', item.id);
+          // console.log('index', index);
+        })
+        // console.log('this.ids', this.ids);
+        this.$router.push({
+          name: "searchsongslist",
+          // query: {
+          //   id: a.key
+          // },
+          params: {
+            ids: this.ids
+          }
+        })
+      })
     },
     // 导航栏  （发现音乐，我的音乐，关注，商城...）
     currentItem (value) {

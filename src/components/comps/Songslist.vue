@@ -13,9 +13,10 @@
              :pagination="false"
              :rowKey="record=>record.id"
              :bordered=true>
-      <div slot="bf"
+      <div style="display: flex;justify-content: space-between;"
+           slot="bf"
            slot-scope="text,tags,i">
-        <span style="font-size:16px;margin: 0 30px 0 10px">{{i + 1}}</span>
+        <span style="font-size:16px;margin: 0 0 0 10px">{{i + 1}}</span>
         <strong><i class="iconfont icon-24gl-playCircle icon-sel right"
              @click="bfsong(i)"></i></strong>
       </div>
