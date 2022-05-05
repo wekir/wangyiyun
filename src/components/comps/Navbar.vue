@@ -71,22 +71,8 @@
         </a>
         <a-menu slot="overlay">
           <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-mine icon-sel"></i>我的主页</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-massage icon-sel"></i>我的消息</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-dengji icon-sel"></i>我的等级</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-vip icon-sel"></i>VIP会员</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-shezhi icon-sel"></i>个人设置</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;"><i class="iconfont icon-shimingrenzheng icon-sel"></i>实名认证</a>
+            <!-- :to="{name:'gsitempages',params: {allinfo:item,index:index,num:msg.length,all:msg}} -->
+            <router-link :to="{name: 'zhuye'}"><i class="iconfont icon-mine icon-sel"></i>我的主页</router-link>
           </a-menu-item>
           <a-menu-item>
             <a href="javascript:;"><i class="iconfont icon-h icon-sel"></i>退出</a>

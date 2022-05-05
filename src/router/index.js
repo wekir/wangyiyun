@@ -16,6 +16,7 @@ import Xdsjitempages from '../components/fxyy/children/tuijianchildren/itempage/
 import Phbpages from '../components/fxyy/children/phbchildren/Phbpages'
 import Gspages from '../components/fxyy/children/gschildren/Gspages'
 import Gsitempages from '../components/fxyy/children/gschildren/Gsitempage'
+import Zhuye from '../components/zhuye/Zhuye'
 
 import Guanzhu from '../components/gz/Guanzhu'
 import Wodeyinyue from '../components/wdyy/Wodeyinyue'
@@ -123,6 +124,11 @@ const router = new VueRouter({
       path: '/guanzhu',  //关注
       name: 'guanzhu',
       component:  Guanzhu
+    },
+    {
+      path: '/zhuye',  //主页
+      name: 'zhuye',
+      component:  Zhuye
     }
   ]
 })
