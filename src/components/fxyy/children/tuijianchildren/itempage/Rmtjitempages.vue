@@ -27,6 +27,33 @@
                    style="margin-right: 5px;"></i>
                 播放
               </a-button>
+              <a-button @click="share">
+                分享
+              </a-button>
+              <div>
+                <a-button @click="createGD">
+                  创建歌单
+                </a-button>
+                <a-modal title="创建歌单"
+                         :visible="visible"
+                         :confirm-loading="confirmLoading"
+                         @ok="handleOk"
+                         @cancel="handleCancel">
+                  <a-input placeholder="请输入歌单名"
+                           v-model="playlistname" />
+                </a-modal>
+              </div>
+              <!-- <a-button @click="createplaylist">
+                创建歌单
+              </a-button> -->
+              <a-button :disabled="shifoujinyon"
+                        @click="shoucang">
+                收藏
+              </a-button>
+              <a-button :disabled="!shifoujinyon"
+                        @click="noshoucang">
+                取消收藏
+              </a-button>
             </div>
             <!-- 介绍 不是电台节目时展示 -->
             <div v-if="!isshowmorejm">
@@ -162,6 +189,7 @@
 <script>
 import { mapActions } from 'vuex'
 import Songslist from '../../../../comps/Songslist'
+import { share, getshare, collection, getcollection, download, createplaylist } from '../../../../../network/fuction'
 
 export default {
   name: 'Rtjitempages',
@@ -177,7 +205,15 @@ export default {
       jmlist: {},  //更多节目数据
       isshowmorejm: false,  //是否展示更多节目列表
       listsongids: [],
-      showall: false   //刚开始没有激活
+      showall: false,   //刚开始没有激活
+      sharelist: {
+        share_url: ""
+      },
+      ModalText: 'Content of the modal',  //弹出框
+      visible: false,  //弹出框
+      confirmLoading: false,  //弹出框
+      playlistname: '',   //歌单名
+      shifoujinyon: false
     }
   },
   mounted () {
@@ -254,7 +290,91 @@ export default {
     showmoretext () {
       console.log('---');
       showall = !showall
-    }
+    },
+    // share () {
+    //   console.log('分享歌单');
+    //   share(803927975).then(res => {
+    //     console.log('分享', res);
+    //   })
+    // },
+    // 分享
+    share () {
+      share('playlist', '803927975').then(res => {
+        console.log('fenxian', res);
+        //分享到QQ好友(PC端可用)
+        //此处分享链接内无法携带图片
+        this.sharelist.share_url = res.data.resUrl
+        location.replace(
+          "https://connect.qq.com/widget/shareqq/index.html?url=" +
+          encodeURIComponent(this.sharelist.share_url)
+        );
+      })
+    },
+    // .data.events[0].json
+    // createplaylist () {
+    //   getcollection().then(res => {
+    //     console.log('看看收藏内容', res);
+    //   })
+    // },
+    // 创建歌单
+    createGD () {
+      this.visible = true;
+    },
+    handleOk (e) {
+      this.ModalText = 'The modal will be closed after two seconds';
+      this.confirmLoading = true;
+      // setTimeout(() => {
+      //   this.visible = false;
+      //   this.confirmLoading = false;
+      // }, 2000);
+      createplaylist(this.playlistname).then(res => {
+        console.log(res);
+        if (res.data.code == 200) {
+          this.$message.info('歌单创建成功');
+        }
+        this.visible = false;
+        this.confirmLoading = false;
+      })
+    },
+    handleCancel (e) {
+      console.log('Clicked cancel button');
+      this.visible = false;
+    },
+    shoucang () {
+      collection(1, 803927975).then(res => {
+        // console.log('ssss', res);
+        if (res.data.code == 200) {
+          this.$message.info('已收藏');
+          this.shifoujinyon = true
+        }
+      })
+    },
+    // 取消收藏
+    noshoucang () {
+      collection(2, 803927975).then(res => {
+        if (res.data.code == 200) {
+          this.$message.info('已取消');
+          this.shifoujinyon = false
+        }
+        // console.log('aaaa', res);
+      })
+    },
+    // download () {
+
+    //   download(560609382).then(res => {
+    //     console.log('22222233333', res);
+    //     // let blob = new Blob([], { type: "image/gif; charset=UTF-8" })
+    //     // let objectUrl = URL.createObjectURL(blob) // 创建URL
+    //     // const link = document.createElement('a')
+    //     // link.href = objectUrl
+    //     // // link.download = '.xlsx'// 自定义文件名
+    //     // //这里是获取后台传过来的文件名
+    //     // link.setAttribute("download", index.songtitle)
+    //     // link.click() // 下载文件
+    //     // URL.revokeObjectURL(objectUrl) // 释放内存
+    //   })
+    //   // console.log('下载', index);
+    // },
   }
 }
 </script>
@@ -316,6 +436,8 @@ export default {
           }
           .bfbtn {
             margin: 12px 0 12px 0;
+            display: flex;
+            justify-content: space-around;
           }
           .showall {
             padding: 10px 10px 0 10px;

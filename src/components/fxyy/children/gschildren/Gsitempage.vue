@@ -9,6 +9,17 @@
             <h3>{{newinfo.artistAlias}}</h3>
             <img :src="newinfo.bigphoto"
                  alt="大图">
+            <div>
+              <a-button style="margin-right:15px"
+                        :disabled="shifouguanzhu"
+                        @click="follow">
+                关注
+              </a-button>
+              <a-button :disabled="!shifouguanzhu"
+                        @click="unfollow">
+                取消关注
+              </a-button>
+            </div>
           </div>
         </div>
         <div class="songstableouter">
@@ -45,6 +56,7 @@
 
 <script>
 import Songslist from '../../../comps/Songslist'
+import { guanzhu } from '../../../../network/fuction'
 export default {
   name: 'Gsitempage',
   components: { Songslist },
@@ -81,7 +93,8 @@ export default {
       randomSixStr: [],  //六位随机数
       likesonglist: [],  //相似歌手  六个
       newobj: {},  //相似歌手新对象
-      newinfo: {}  // 新页面数据
+      newinfo: {},  // 新页面数据
+      shifouguanzhu: false,   //  是否关注
     }
   },
   methods: {
@@ -111,6 +124,28 @@ export default {
         this.newobj.smallTX = this.newobj.bigphoto.replace('640y300', '50y50');
         this.likesonglist.push(this.newobj)
       })
+    },
+    // 关注
+    follow () {
+      guanzhu('29879272', 1).then(res => {
+        // console.log('guanz', res);
+        if (res.data.code == 200) {
+          this.$message.info('已关注');
+          this.shifouguanzhu = true
+        }
+      })
+      // console.log('关注');
+    },
+    // 取消关注
+    unfollow () {
+      guanzhu('29879272', 2).then(res => {
+        // console.log('取消关注', res);
+        if (res.data.code == 200) {
+          this.$message.info('已取消关注');
+          this.shifouguanzhu = false
+        }
+      })
+      // console.log('取消关注');
     }
   }
 }

@@ -19,9 +19,9 @@
           <span style="font-size:16px;margin: 0 0 0 10px">{{text}}</span>
           <!-- <span style="font-size:16px;margin: 0 30px 0 10px">{{tags}}</span>
           <span style="font-size:16px;margin: 0 30px 0 10px">{{i}}</span> -->
-          <div style="width: 80px;display: flex;justify-content: space-between; ">
-            <div class="collection"
-                 @click="collection(i)"></div>
+          <div style="width: 60px;display: flex;justify-content: space-between; ">
+            <!-- <div class="collection"
+                 @click="collection(i)"></div> -->
             <div class="share"
                  @click="share(i)"></div>
             <div class="download"
@@ -46,7 +46,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { songxq } from '../../network/song'
 import { songtime } from '../../components/comps/time'
-import { collection, getcollection } from '../../network/fuction'
+import { collection, getcollection, share, download } from '../../network/fuction'
 import { by } from '../../components/comps/paixu'
 const columns = [
   {
@@ -89,16 +89,15 @@ export default {
       datatest: [],
       columns,
       listsongids: [],
+      // http://music.163.com/share/1658129428/21644539694?userid=1658129428
+      sharelist: {
+        share_url: ""
+      },
     }
   },
   created () {
     this.listsongids = this.$route.params.ids
     this.datatest = []
-    // console.log('this.listsongids1', this.listsongids);
-    // this.listsongids.sort(function (a, b) {
-    //   return b - a
-    // })
-    // console.log('this.listsongids2', this.listsongids);
     this.listsongids.forEach((item, index) => {
 
       let obj = {}
@@ -109,33 +108,13 @@ export default {
         obj.songaudio = res.data.songs[0].ar[0].name
         obj.album = res.data.songs[0].al.name
         this.datatest.push(obj)
-        // console.log('thsi.datadfasf', this.datatest);
         if (this.datatest.length == 30) {
           this.datatest.sort(function (a, b) {
-            // console.log('123456789');
-            // console.log(']]]', a);
             return b.key - a.key
           })
         }
       })
     });
-    // this.data.sort(function (a, b) {
-    //   console.log('123456789');
-    //   console.log(']]]', a);
-    //   return b.key - a.key
-    // })
-    // console.log(this.datatest.length);
-    // if (this.data.length == 30) {
-    //   this.data.sort(function (a, b) {
-    //     console.log('2222');
-    //     // let obj1 = a['time']
-    //     // let obj2 = b['time']
-    //     // const val1 = Math.floor(new Date(obj1).getTime() / 1000)
-    //     // const val2 = Math.floor(new Date(obj2).getTime() / 1000)
-    //     // return val2 - val1
-    //   });
-    // }
-    console.log('11111', this.datatest);
   },
   computed: {
     ...mapState('songinfo', ['audio'])
@@ -145,35 +124,45 @@ export default {
     ...mapMutations('songinfo', ['changebfsongs']),
     // 播放按钮
     bfsong (index) {
-      // this.listsongids = this.$route.params.ids
-      // // this.data = []
-      // // console.log('this.listsongids1', this.listsongids);
-      // this.listsongids.sort(function (a, b) {
-      //   return b - a
-      // })
-      // console.log('this.listsongids3', this.listsongids)
       this.switchsong(this.listsongids)
       this.changebfsongs(index)
     },
     // 收藏
     collection (index) {
-      // this.listsongids[index]
-      // console.log('ss', this.listsongids);
-      console.log('收藏', this.listsongids[index.key]);
-      collection(1, 106697785).then(res => {
+      collection(1, this.listsongids[index.key - 1]).then(res => {
         console.log('shouvcang', res);
       })
     },
     // 分享
     share (index) {
-      console.log('分享', index);
+      share('song', this.listsongids[index.key - 1]).then(res => {
+        //分享到QQ好友(PC端可用)
+        //此处分享链接内无法携带图片
+        this.sharelist.share_url = res.data.resUrl
+        location.replace(
+          "https://connect.qq.com/widget/shareqq/index.html?url=" +
+          encodeURIComponent(this.sharelist.share_url)
+        );
+      })
     },
     // 下载
     download (index) {
-      console.log('下载', index);
+      console.log('this.listsongids[index.key - 1]', this.listsongids[index.key - 1]);
+      download(this.listsongids[index.key - 1]).then(res => {
+        let blob = new Blob([res.data.data.url], { type: "audio/mpeg; charset=UTF-8" })
+        let objectUrl = URL.createObjectURL(blob) // 创建URL
+        const link = document.createElement('a')
+        link.href = objectUrl
+        // link.download = '.xlsx'// 自定义文件名
+        //这里是获取后台传过来的文件名
+        link.setAttribute("download", index.songtitle)
+        link.click() // 下载文件
+        URL.revokeObjectURL(objectUrl) // 释放内存
+      })
+      // console.log('下载', index);
     },
     get () {
-      getcollection().then(res => {
+      getcollection('1658129428').then(res => {
         console.log('得到收藏', res);
       })
     }

@@ -60,7 +60,7 @@ export default {
     onChange () {
       // console.log(this.pages);
       gedaninfo(this.number, this.pages).then(res => {
-        console.log(res);
+        console.log('歌单数据', res);
         // this.total = res.data.length
         this.gedan = res.data
       })

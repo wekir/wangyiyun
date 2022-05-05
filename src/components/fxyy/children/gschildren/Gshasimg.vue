@@ -32,6 +32,9 @@ export default {
   name: 'Gshasimg',
   components: { Hasimgitem },
   props: ['msg'],
+  // mounted () {
+  //   console.log('msgggg', this.msg);
+  // }
 }
 </script>
 
